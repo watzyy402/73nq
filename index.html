@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>73nq | Relentless Pursuit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            /* Reduced transparency and blur for clarity */
             --glass: rgba(0, 0, 0, 0.3);
             --border: rgba(255, 255, 255, 0.15);
             --accent: #2ecc71;
@@ -18,7 +18,6 @@
             width: 100%;
             height: 100%;
             background-color: #000;
-            /* LIGHTER OVERLAY (0.4 instead of 0.7) so the photo is visible */
             background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./rolex.PNG');
             background-size: cover;
             background-position: center;
@@ -36,10 +35,9 @@
             z-index: 10;
             text-align: center;
             width: 85%;
-            max-width: 500px;
+            max-width: 450px;
             padding: 50px 30px;
             background: var(--glass);
-            /* DRASTICALLY REDUCED BLUR */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             border: 1px solid var(--border);
@@ -63,7 +61,6 @@
             font-weight: 900;
             text-transform: lowercase;
             line-height: 0.9;
-            /* Subtly glows against the dark background */
             text-shadow: 0 0 20px rgba(255,255,255,0.2);
         }
 
@@ -76,29 +73,33 @@
             margin-bottom: 40px;
         }
 
+        /* LOGO BUTTONS STYLE */
         .btn-group {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            justify-content: center;
+            gap: 25px; /* Spaced out logos */
         }
 
         .btn {
             text-decoration: none;
             color: white;
             border: 1px solid var(--border);
-            padding: 18px;
-            font-size: 0.65rem;
-            letter-spacing: 4px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem; /* Icon size */
             background: rgba(0,0,0,0.4);
             transition: 0.3s ease;
-            text-transform: uppercase;
-            text-align: center;
+            border-radius: 2px;
         }
 
         .btn:hover {
             background: white;
             color: black;
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
         .ticker-wrap {
@@ -142,8 +143,12 @@
         <h2>RELENTLESS PURSUIT.</h2>
 
         <div class="btn-group">
-            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn">CONNECT DISCORD</a>
-            <a href="https://www.instagram.com/1heeeb777?igsh=MXVwbDNiYWV6YnR4ag%3D%3D&utm_source=qr" target="_blank" class="btn">VIEW GALLERY</a>
+            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn" title="Join Discord">
+                <i class="fa-brands fa-discord"></i>
+            </a>
+            <a href="https://www.instagram.com/1heeeb777?igsh=MXVwbDNiYWV6YnR4ag%3D%3D&utm_source=qr" target="_blank" class="btn" title="Follow Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
         </div>
 
         <div class="music-info">
