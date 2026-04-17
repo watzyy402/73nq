@@ -1,138 +1,234 @@
-#   
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>73nq | Relentless Pursuit</title>  
-      
-    <style>  
-        :root {  
-            --dark-green: #020a02;  
-            --glow-green: #0a1f0a;  
-            --accent-green: #2ecc71;  
-        }  
-  
-        body, html {  
-            margin: 0;  
-            padding: 0;  
-            width: 100%;  
-            height: 100%;  
-            background-color: var(--dark-green);  
-            color: white;  
-            font-family: 'Helvetica', 'Arial', sans-serif;  
-            display: flex;  
-            align-items: center;  
-            justify-content: center;  
-            overflow: hidden;  
-            text-align: center;  
-        }  
-  
-        /* The Dark Luxury Background */  
-        body::before {  
-            content: "";  
-            position: absolute;  
-            top: 0; left: 0; width: 100%; height: 100%;  
-            background: radial-gradient(circle at center, var(--glow-green) 0%, var(--dark-green) 100%);  
-            z-index: -1;  
-        }  
-  
-        .container {  
-            position: relative;  
-            z-index: 10;  
-        }  
-  
-        .nasdaq {  
-            font-weight: bold;  
-            border: 1px solid white;  
-            padding: 2px 8px;  
-            font-size: 0.7rem;  
-            letter-spacing: 2px;  
-            display: inline-block;  
-            margin-bottom: 10px;  
-        }  
-  
-        h1 {  
-            font-size: 5rem;  
-            margin: 0;  
-            letter-spacing: -3px;  
-            font-weight: 700;  
-        }  
-  
-        h2 {  
-            font-size: 1rem;  
-            letter-spacing: 10px;  
-            text-transform: uppercase;  
-            opacity: 0.6;  
-            margin-bottom: 40px;  
-        }  
-  
-        /* Buttons Fix */  
-        .links a {  
-            color: white;  
-            text-decoration: none;  
-            border: 1px solid rgba(255,255,255,0.2);  
-            padding: 15px 30px;  
-            margin: 0 10px;  
-            display: inline-block;  
-            font-size: 0.7rem;  
-            letter-spacing: 2px;  
-            background: rgba(255,255,255,0.03);  
-            backdrop-filter: blur(10px);  
-            transition: 0.4s;  
-        }  
-  
-        .links a:hover {  
-            background: white;  
-            color: black;  
-        }  
-  
-        /* Floating Profits & Certificates */  
-        .floating {  
-            position: absolute;  
-            font-size: 0.8rem;  
-            color: var(--accent-green);  
-            opacity: 0.4;  
-            animation: float 6s ease-in-out infinite;  
-            white-space: nowrap;  
-        }  
-  
-        .p1 { top: -150px; left: -200px; }  
-        .p2 { bottom: -100px; right: -150px; color: white; border: 1px solid gold; padding: 5px; }  
-  
-        @keyframes float {  
-            0%, 100% { transform: translateY(0); }  
-            50% { transform: translateY(-30px); }  
-        }  
-  
-        .audio-info {  
-            position: fixed;  
-            bottom: 20px;  
-            left: 20px;  
-            font-size: 0.6rem;  
-            opacity: 0.3;  
-        }  
-    </style>  
-</head>  
-<body>  
-  
-    <div class="container">  
-        <div class="nasdaq">NASDAQ</div>  
-        <h1>73nq</h1>  
-        <h2>RELENTLESS PURSUIT.</h2>  
-  
-        <div class="links">  
-            <a href="https://discord.gg/yourlink">[ 01 // DISCORD ]</a>  
-            <a href="https://instagram.com/yourlink">[ 02 // INSTAGRAM ]</a>  
-        </div>  
-  
-        <div class="floating p1">Profit: +$8,765.43</div>  
-        <div class="floating p2">ALPHA FUTURES CERTIFIED</div>  
-    </div>  
-  
-    <div class="audio-info">  
-        NOW PLAYING: Not Again - Miami Edit  
-    </div>  
-  
-</body>  
-</html>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>73nq | Relentless Pursuit</title>
+    <style>
+        :root {
+            --dark-void: #020502;
+            --emerald-glow: #0a1f0a;
+            --trading-green: #2ecc71;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-void);
+            color: white;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Scanline & Grid Atmosphere */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Radial Depth */
+        .atmosphere {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, var(--emerald-glow) 0%, var(--dark-void) 85%);
+            z-index: 0;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .nasdaq-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            font-size: 0.7rem;
+            margin-bottom: -10px;
+        }
+
+        .nasdaq-box {
+            border: 1px solid white;
+            padding: 2px 6px;
+        }
+
+        h1 {
+            font-size: clamp(4rem, 15vw, 7rem);
+            margin: 0;
+            letter-spacing: -4px;
+            font-weight: 800;
+            background: linear-gradient(to bottom, #fff 40%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 0.9rem;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-top: -5px;
+            animation: pulse 4s infinite;
+        }
+
+        /* Floating Profits & Certificates */
+        .float-card {
+            position: absolute;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            animation: float 6s ease-in-out infinite;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .p1 { top: -140px; left: -180px; color: var(--trading-green); border-left: 3px solid var(--trading-green); }
+        .p2 { bottom: -80px; right: -220px; color: #fff; border: 1px solid #c5a059; } 
+        .p3 { top: 100px; right: -250px; opacity: 0.3; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(1deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            margin-top: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 35px;
+            display: inline-block;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            background: rgba(255,255,255,0.02);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .btn:hover {
+            background: white;
+            color: black;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Market Ticker Footer */
+        .ticker-wrap {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 0;
+            font-family: monospace;
+            font-size: 0.7rem;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker 40s linear infinite;
+        }
+
+        .ticker span {
+            margin-right: 60px;
+            color: var(--trading-green);
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .audio-status {
+            position: fixed;
+            bottom: 50px;
+            left: 20px;
+            font-size: 0.6rem;
+            opacity: 0.4;
+            z-index: 101;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .float-card { display: none; }
+            h1 { font-size: 4rem; }
+            h2 { letter-spacing: 4px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="atmosphere"></div>
+
+    <main class="main-content">
+        <div class="nasdaq-header">
+            <div class="nasdaq-box">NASDAQ</div>
+            <span>INDEXED ACCESS</span>
+        </div>
+        
+        <h1>73nq</h1>
+        <h2>RELENTLESS PURSUIT.</h2>
+
+        <div class="nav-links">
+            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn">[ CONNECT DISCORD ]</a>
+            <a href="https://www.instagram.com/1heeeb777?igsh=MXVwbDNiYWV6YnR4ag%3D%3D&utm_source=qr" target="_blank" class="btn">[ VIEW GALLERY ]</a>
+        </div>
+
+        <div class="float-card p1">PROFIT: +$8,765.43 (NAS100)</div>
+        <div class="float-card p2">ALPHA FUTURES: EXECUTIVE CERTIFIED</div>
+        <div class="float-card p3">ORDERFLOW_STATUS: SUCCESS</div>
+    </main>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span>NAS100: 18,245.30 (+1.24%)</span>
+            <span>GOLD: 2,154.20 (+0.45%)</span>
+            <span>73NQ_STATUS: ACTIVE</span>
+            <span>EURUSD: 1.0842 (-0.12%)</span>
+            <span>BTC: 68,432.10 (+2.10%)</span>
+            <span>US30: 38,905.00 (+0.88%)</span>
+            <span>SMART MONEY: CONFIRMED</span>
+        </div>
+    </div>
+
+    <div class="audio-status">
+        [ AUDIO: NOT AGAIN - "WOKE UP IN MIAMI BEACH..." ]
+    </div>
+
+</body>
+</html>
