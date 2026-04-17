@@ -6,164 +6,154 @@
     <title>73nq | Relentless Pursuit</title>
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.02);
-            --border-glow: rgba(255, 255, 255, 0.05);
-            --green: #2ecc71;
+            --glass: rgba(0, 0, 0, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #2ecc71;
         }
 
-        /* --- BACKGROUND LAYER (THE DESIGN) --- */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #010401;
-            /* This is the magic. It fills the screen with your image. */
-            background-image: url('background.png'); 
+            background-color: #000;
+            /* UPDATED FILENAME TO rolex.PNG TO MATCH YOUR REPO */
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('rolex.PNG');
             background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
             color: white;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            overflow: hidden;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        /* Create a dark overlay to make text pop */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); /* 50% darker */
-            z-index: 1;
-        }
-
-        /* --- LAYOUT WRAPPER --- */
-        .page-container {
+        .main-container {
             position: relative;
             z-index: 10;
             text-align: center;
-            width: 100%;
-            max-width: 1400px; /* Constraints for larger screens */
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 40px;
+            width: 85%;
+            max-width: 500px;
+            padding: 50px 30px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 4px;
         }
 
-        /* --- HEADER & TITLES --- */
-        header { flex: 0 0 auto; margin-top: 5vh; }
-        
-        .nasdaq-header {
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            font-weight: 700;
+        .nasdaq-tag {
+            font-size: 0.6rem;
+            letter-spacing: 5px;
+            font-weight: bold;
             opacity: 0.5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .nasdaq-box {
-            border: 1px solid white;
-            padding: 2px 6px;
+            margin-bottom: 10px;
+            display: block;
         }
 
         h1 {
-            font-size: 7rem;
+            font-size: 4.5rem;
             margin: 0;
-            letter-spacing: -6px;
+            letter-spacing: -4px;
             font-weight: 800;
-            background: linear-gradient(to bottom, #fff 30%, #444 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-transform: lowercase;
+            line-height: 1;
         }
 
         h2 {
-            font-size: 1.1rem;
-            letter-spacing: 12px;
+            font-size: 0.75rem;
+            letter-spacing: 10px;
             text-transform: uppercase;
             opacity: 0.4;
-            margin-top: -10px;
-            margin-bottom: 60px;
+            margin-top: 10px;
+            margin-bottom: 40px;
         }
 
-        /* --- CALL TO ACTION BUTTONS --- */
-        .btn-container { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; gap: 30px;}
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-        .glass-btn {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glow);
-            padding: 20px 45px;
-            color: white;
+        .btn {
             text-decoration: none;
-            font-size: 0.75rem;
+            color: white;
+            border: 1px solid var(--border);
+            padding: 18px;
+            font-size: 0.65rem;
             letter-spacing: 4px;
-            font-weight: 700;
-            transition: all 0.4s;
-            cursor: pointer;
+            background: rgba(255,255,255,0.02);
+            transition: 0.3s ease;
+            text-transform: uppercase;
+            text-align: center;
         }
 
-        .glass-btn:hover {
-            border-color: #fff;
-            transform: translateY(-5px);
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+        .btn:hover {
+            background: white;
+            color: black;
         }
 
-        /* --- FLOATING DECO ELEMENTS --- */
-        .float {
-            position: absolute;
-            font-size: 0.8rem;
-            opacity: 0.4;
-            pointer-events: none;
-            animation: floatAnim 6s ease-in-out infinite;
+        .ticker-wrap {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.9);
+            padding: 12px 0;
+            font-family: monospace;
+            font-size: 0.65rem;
+            overflow: hidden;
+            border-top: 1px solid var(--border);
         }
 
-        .p1 { top: 20%; left: 10%; color: var(--green); }
-        .p2 { bottom: 30%; right: 10%; border: 1px solid gold; padding: 5px; opacity: 0.2;}
-        .p3 { top: 15%; right: 15%; font-family: monospace;}
-
-        @keyframes floatAnim {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            animation: tickerMove 40s linear infinite;
         }
 
-        /* --- FOOTER & MUSIC STATUS --- */
-        footer { flex: 0 0 auto; width: 100%; display: flex; justify-content: space-between; font-size: 0.6rem; opacity: 0.3; letter-spacing: 1px; text-transform: uppercase;}
-        
+        .ticker span { margin-right: 60px; color: var(--accent); }
+
+        @keyframes tickerMove {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .music-info {
+            margin-top: 35px;
+            font-size: 0.55rem;
+            opacity: 0.3;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="page-container">
-        
-        <header>
-            <div class="nasdaq-header">
-                <div class="nasdaq-box">NASDAQ</div>
-                <span>73NQ // RELENTLESS ACCESS</span>
-            </div>
-            <h1>73nq</h1>
-            <h2>RELENTLESS PURSUIT.</h2>
-        </header>
+    <div class="main-container">
+        <span class="nasdaq-tag">NASDAQ // 73NQ</span>
+        <h1>73nq</h1>
+        <h2>RELENTLESS PURSUIT.</h2>
 
-        <div class="btn-container">
-            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="glass-btn">[ DISCORD NETWORK ]</a>
-            <a href="https://www.instagram.com/1heeeb777?igsh=MXVwbDNiYWV6YnR4ag%3D%3D&utm_source=qr" target="_blank" class="glass-btn">[ INSTAGRAM GALLERY ]</a>
+        <div class="btn-group">
+            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn">CONNECT DISCORD</a>
+            <a href="https://www.instagram.com/1heeeb777?igsh=MXVwbDNiYWV6YnR4ag%3D%3D&utm_source=qr" target="_blank" class="btn">VIEW GALLERY</a>
         </div>
 
-        <footer>
-            <span>STATUS: ACTIVE // Smart Money Concept V3.1</span>
-            <span>MUSIC: Not Again - Miami Beach (Woke up in Miami beach...)</span>
-        </footer>
+        <div class="music-info">
+            [ AUDIO: NOT AGAIN - MIAMI BEACH ]
+        </div>
+    </div>
 
-        <div class="float p1">NAS100: +$8,765.43 (DAILY_P/L)</div>
-        <div class="float p2">ALPHA FUTURES: EXECUTIVE CERTIFIED</div>
-        <div class="float p3">EURUSD: 1.0842 ▲</div>
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <span>NAS100: 18,245.30 (+1.24%)</span>
+            <span>GOLD: 2,154.20 (+0.45%)</span>
+            <span>BTC: 68,432.10 (+2.10%)</span>
+            <span>ALPHA FUTURES: CERTIFIED</span>
+            <span>STATUS: RELENTLESS</span>
+            <span>SMART MONEY: ACTIVE</span>
+        </div>
     </div>
 
 </body>
