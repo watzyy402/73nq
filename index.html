@@ -24,7 +24,7 @@
 
         .main-container {
             position: relative; z-index: 10; text-align: center;
-            width: 85%; max-width: 450px; padding: 50px 30px;
+            width: 85%; max-width: 450px; padding: 50px 20px;
             background: var(--glass); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--border); border-radius: 2px;
             box-shadow: 0 0 40px rgba(0,0,0,0.5);
@@ -41,12 +41,12 @@
 
         h2 { font-size: 0.75rem; letter-spacing: 12px; text-transform: uppercase; opacity: 0.6; margin-top: 10px; margin-bottom: 40px; }
 
-        .btn-group { display: flex; justify-content: center; gap: 25px; }
+        .btn-group { display: flex; justify-content: center; gap: 20px; }
 
         .btn {
             text-decoration: none; color: white; border: 1px solid var(--border);
-            width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; background: rgba(0,0,0,0.4); transition: 0.3s ease; border-radius: 2px;
+            width: 55px; height: 55px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; background: rgba(0,0,0,0.4); transition: 0.3s ease; border-radius: 2px;
         }
 
         .btn:hover { background: white; color: black; transform: translateY(-3px); }
@@ -63,8 +63,6 @@
         @keyframes tickerMove { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         .music-info { margin-top: 35px; font-size: 0.55rem; opacity: 0.5; letter-spacing: 2px; cursor: pointer; }
-        
-        /* Subtle pulse effect to show music is active */
         .playing { color: var(--accent); opacity: 1; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
@@ -82,8 +80,15 @@
         <h2>RELENTLESS PURSUIT.</h2>
 
         <div class="btn-group">
-            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn"><i class="fa-brands fa-discord"></i></a>
-            <a href="https://www.instagram.com/1heeeb777?igsh=MXVwbDNiYWV6YnR4ag%3D%3D&utm_source=qr" target="_blank" class="btn"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn" title="Discord">
+                <i class="fa-brands fa-discord"></i>
+            </a>
+            <a href="https://www.instagram.com/1heeeb777" target="_blank" class="btn" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@73nqqq?_r=1&_t=ZS-95cOIcicinf" target="_blank" class="btn" title="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
         </div>
 
         <div class="music-info" id="status">
