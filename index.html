@@ -6,8 +6,9 @@
     <title>73nq | Relentless Pursuit</title>
     <style>
         :root {
-            --glass: rgba(0, 0, 0, 0.6);
-            --border: rgba(255, 255, 255, 0.1);
+            /* Reduced transparency and blur for clarity */
+            --glass: rgba(0, 0, 0, 0.3);
+            --border: rgba(255, 255, 255, 0.15);
             --accent: #2ecc71;
         }
 
@@ -17,8 +18,8 @@
             width: 100%;
             height: 100%;
             background-color: #000;
-            /* UPDATED FILENAME TO rolex.PNG TO MATCH YOUR REPO */
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('./rolex.PNG');
+            /* LIGHTER OVERLAY (0.4 instead of 0.7) so the photo is visible */
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./rolex.PNG');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -38,35 +39,39 @@
             max-width: 500px;
             padding: 50px 30px;
             background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            /* DRASTICALLY REDUCED BLUR */
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             border: 1px solid var(--border);
-            border-radius: 4px;
+            border-radius: 2px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
         }
 
         .nasdaq-tag {
             font-size: 0.6rem;
             letter-spacing: 5px;
             font-weight: bold;
-            opacity: 0.5;
+            color: var(--accent);
             margin-bottom: 10px;
             display: block;
         }
 
         h1 {
-            font-size: 4.5rem;
+            font-size: 5.5rem;
             margin: 0;
-            letter-spacing: -4px;
-            font-weight: 800;
+            letter-spacing: -5px;
+            font-weight: 900;
             text-transform: lowercase;
-            line-height: 1;
+            line-height: 0.9;
+            /* Subtly glows against the dark background */
+            text-shadow: 0 0 20px rgba(255,255,255,0.2);
         }
 
         h2 {
             font-size: 0.75rem;
-            letter-spacing: 10px;
+            letter-spacing: 12px;
             text-transform: uppercase;
-            opacity: 0.4;
+            opacity: 0.6;
             margin-top: 10px;
             margin-bottom: 40px;
         }
@@ -84,7 +89,7 @@
             padding: 18px;
             font-size: 0.65rem;
             letter-spacing: 4px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(0,0,0,0.4);
             transition: 0.3s ease;
             text-transform: uppercase;
             text-align: center;
@@ -93,6 +98,7 @@
         .btn:hover {
             background: white;
             color: black;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
 
         .ticker-wrap {
@@ -123,7 +129,7 @@
         .music-info {
             margin-top: 35px;
             font-size: 0.55rem;
-            opacity: 0.3;
+            opacity: 0.5;
             letter-spacing: 2px;
         }
     </style>
