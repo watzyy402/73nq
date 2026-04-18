@@ -7,66 +7,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --glass: rgba(0, 0, 0, 0.4);
-            --border: rgba(255, 255, 255, 0.15);
+            --glass: rgba(0, 0, 0, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
             --accent: #2ecc71;
-            /* Silver Dark Gradient for the title */
             --silver: linear-gradient(180deg, #ffffff 0%, #a1a1a1 50%, #4a4a4a 100%);
         }
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background-color: #000;
-            /* Restoring the Rolex image background */
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./rolex.PNG');
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('./rolex.PNG');
             background-size: cover; background-position: center; background-attachment: fixed;
             color: white; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            overflow-y: auto; scroll-behavior: smooth;
         }
+
+        /* Subtle Background Animation */
+        body::before {
+            content: ""; position: fixed; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            animation: sweep 8s infinite; z-index: 1; pointer-events: none;
+        }
+        @keyframes sweep { 0% { left: -100%; } 100% { left: 200%; } }
 
         .main-container {
             position: relative; z-index: 10; text-align: center;
-            width: 85%; max-width: 450px; padding: 50px 20px;
-            background: var(--glass); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border); border-radius: 2px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            width: 85%; max-width: 450px; padding: 40px 20px;
+            background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border); border-radius: 4px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); margin: 40px 0;
         }
-
-        .nasdaq-tag { font-size: 0.6rem; letter-spacing: 5px; font-weight: bold; color: var(--accent); margin-bottom: 10px; display: block; }
 
         h1 {
             font-size: 5.5rem; margin: 0; letter-spacing: -5px; font-weight: 900;
             text-transform: lowercase; line-height: 0.9;
             background: var(--silver); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8));
+            animation: glow 4s ease-in-out infinite;
         }
+        @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        h2 { font-size: 0.75rem; letter-spacing: 12px; text-transform: uppercase; opacity: 0.6; margin-top: 10px; margin-bottom: 40px; }
-
-        .btn-group { display: flex; justify-content: center; gap: 20px; }
-
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin: 30px 0; }
         .btn {
             text-decoration: none; color: white; border: 1px solid var(--border);
-            width: 55px; height: 55px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; background: rgba(0,0,0,0.4); transition: 0.3s ease; border-radius: 2px;
+            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; background: rgba(255,255,255,0.05); transition: 0.3s; border-radius: 4px;
+        }
+        .btn:hover { background: white; color: black; transform: scale(1.1); }
+
+        /* LOCKED MODEL SECTION */
+        .model-card {
+            margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px;
+            position: relative; overflow: hidden;
         }
 
-        .btn:hover { background: white; color: black; transform: translateY(-3px); }
+        .lock-overlay {
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(15px);
+            border-radius: 8px; padding: 30px 15px; border: 1px solid rgba(46, 204, 113, 0.3);
+            transition: 0.5s;
+        }
+
+        .lock-icon { font-size: 2rem; color: var(--accent); margin-bottom: 15px; }
+
+        .price-tag {
+            font-size: 1.5rem; font-weight: 800; color: #fff; display: block; margin: 10px 0;
+        }
+
+        .buy-btn {
+            background: var(--accent); color: black; border: none; padding: 12px 30px;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; border-radius: 2px; transition: 0.3s; width: 100%;
+        }
+        .buy-btn:hover { background: #27ae60; letter-spacing: 4px; }
 
         .ticker-wrap {
-            position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.9);
-            padding: 12px 0; font-family: monospace; font-size: 0.65rem;
-            overflow: hidden; border-top: 1px solid var(--border);
+            position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.95);
+            padding: 10px 0; font-family: monospace; font-size: 0.6rem; z-index: 100;
         }
-
-        .ticker { display: inline-block; white-space: nowrap; animation: tickerMove 40s linear infinite; }
-        .ticker span { margin-right: 60px; color: var(--accent); }
-
-        @keyframes tickerMove { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .music-info { margin-top: 35px; font-size: 0.55rem; opacity: 0.5; letter-spacing: 2px; cursor: pointer; }
-        .playing { color: var(--accent); opacity: 1; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        .ticker { display: inline-block; white-space: nowrap; animation: ticker 35s linear infinite; }
+        .ticker span { margin-right: 50px; color: var(--accent); }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
     </style>
 </head>
@@ -77,51 +98,47 @@
     </audio>
 
     <div class="main-container">
-        <span class="nasdaq-tag">NASDAQ // 73NQ</span>
+        <span style="font-size: 0.6rem; letter-spacing: 5px; color: var(--accent);">ALGO // ACCESS</span>
         <h1>73nq</h1>
-        <h2>RELENTLESS PURSUIT.</h2>
+        <h2 style="font-size: 0.7rem; letter-spacing: 10px; opacity: 0.5; margin-bottom: 20px;">RELENTLESS PURSUIT</h2>
 
         <div class="btn-group">
-            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn" title="Discord">
-                <i class="fa-brands fa-discord"></i>
-            </a>
-            <a href="https://www.instagram.com/1heeeb777" target="_blank" class="btn" title="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.tiktok.com/@73nqqq?_r=1&_t=ZS-95cOIcicinf" target="_blank" class="btn" title="TikTok">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
+            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://www.instagram.com/1heeeb777" target="_blank" class="btn"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@73nqqq" target="_blank" class="btn"><i class="fa-brands fa-tiktok"></i></a>
         </div>
 
-        <div class="music-info" id="status">
-            [ TAP ANYWHERE TO START AUDIO ]
+        <div class="model-card">
+            <div class="lock-overlay">
+                <div class="lock-icon"><i class="fas fa-lock"></i></div>
+                <h3 style="letter-spacing: 3px; font-size: 0.9rem;">SMC ORDERFLOW MODEL</h3>
+                <p style="font-size: 0.65rem; opacity: 0.6; line-height: 1.6;">
+                    Unlock the full blueprint of the 73nq strategy. Standard deviation entries and HTF liquidty sweeps.
+                </p>
+                <span class="price-tag">$39.99</span>
+                <button class="buy-btn" onclick="alert('Access Restricted: Payment Gateway Connecting...')">Unlock Model</button>
+            </div>
         </div>
+
+        <p id="status" style="font-size: 0.5rem; margin-top: 30px; opacity: 0.4;">[ TAP TO SYNC EXPERIENCE ]</p>
     </div>
 
     <div class="ticker-wrap">
         <div class="ticker">
             <span>NAS100: 18,245.30 (+1.24%)</span>
-            <span>GOLD: 2,154.20 (+0.45%)</span>
+            <span>XAUUSD: 2,154.20 (+0.45%)</span>
             <span>BTC: 68,432.10 (+2.10%)</span>
-            <span>ALPHA FUTURES: CERTIFIED</span>
-            <span>STATUS: RELENTLESS</span>
-            <span>SMART MONEY: ACTIVE</span>
+            <span>73NQ MODEL: ENCRYPTED</span>
+            <span>LIQUIDITY: HUNTING</span>
         </div>
     </div>
 
     <script>
-        var audio = document.getElementById("bgMusic");
-        var statusText = document.getElementById("status");
-
         function playAudio() {
-            audio.play().then(() => {
-                statusText.innerHTML = "[ AUDIO ACTIVE: NOT AGAIN - MIAMI BEACH ]";
-                statusText.classList.add("playing");
-            }).catch(error => {
-                console.log("Audio waiting for interaction");
-            });
+            document.getElementById("bgMusic").play();
+            document.getElementById("status").innerHTML = "[ 73NQ SYSTEM ACTIVE ]";
+            document.getElementById("status").style.color = "#2ecc71";
         }
     </script>
-
 </body>
 </html>
