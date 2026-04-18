@@ -11,6 +11,7 @@
             --silver: linear-gradient(180deg, #ffffff 0%, #a1a1a1 50%, #4a4a4a 100%);
         }
 
+        /* INITIAL FADE FOR BACKGROUND */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             background-color: #000;
@@ -18,13 +19,39 @@
             background-size: cover; background-position: center; background-attachment: fixed;
             color: white; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             display: flex; align-items: center; justify-content: center; overflow: hidden;
+            animation: fadeInPage 2s ease-in-out forwards;
         }
 
-        /* MAIN LANDING FACE */
+        @keyframes fadeInPage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* STAGGERED ENTRANCE FOR TEXT/BUTTONS */
         .main-face {
             text-align: center; width: 90%; max-width: 500px;
             transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); z-index: 10;
         }
+
+        .fade-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroFade 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+
+        .main-face span { animation-delay: 0.5s; }
+        .main-face h1 { animation-delay: 0.8s; }
+        .main-face h2 { animation-delay: 1.1s; }
+        .btn-group { animation-delay: 1.4s; }
+        .model-access-btn-main { animation-delay: 1.7s; }
+
+        @keyframes heroFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .main-face.hidden { transform: scale(0.85); opacity: 0; pointer-events: none; }
 
         h1 {
@@ -51,7 +78,7 @@
         }
         .model-access-btn:hover { background: var(--accent); color: black; box-shadow: 0 0 30px rgba(46, 204, 113, 0.4); }
 
-        /* SLIDE-UP MENTORSHIP PAGE with Scrollbar */
+        /* SLIDE-UP MENTORSHIP PAGE */
         .model-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.96); backdrop-filter: blur(30px);
@@ -71,7 +98,7 @@
             font-weight: 300; color: rgba(255, 255, 255, 0.9); letter-spacing: 1px;
         }
 
-        /* VERIFIED PROOF GRID (Updated to reflect 10 images) */
+        /* PROOF GRID */
         .proof-title { font-size: 0.7rem; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; font-weight: bold; margin-bottom: 20px; text-align: left;}
         .proof-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 50px; width: 100%;
@@ -80,29 +107,23 @@
             aspect-ratio: 9/16; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;
             background: #000; cursor: pointer; transition: 0.3s; position: relative;
         }
-        .proof-item:hover { transform: scale(1.05); border-color: var(--accent); }
         .proof-item img { width: 100%; height: 100%; object-fit: cover; }
-        .proof-item::after { content: "\f00e"; font-family: "Font Awesome 5 Free"; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--accent); font-size: 1.5rem; opacity: 0; transition: 0.3s; }
-        .proof-item:hover::after { opacity: 1; }
 
-        /* Fullscreen Proof Modal */
+        /* MODAL */
         .proof-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95);
             backdrop-filter: blur(20px); z-index: 1000; display: none; align-items: center; justify-content: center;
         }
         .proof-modal.active { display: flex; }
         .proof-modal img { max-width: 90%; max-height: 90%; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
-        .modal-close { position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: white; opacity: 0.5; cursor: pointer; }
-        .modal-close:hover { opacity: 1; }
 
-        /* PRICING SECTION */
+        /* PRICING */
         .price-lock { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; margin-bottom: 60px; }
-        .early-access-tag { font-size: 0.7rem; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; font-weight: bold; }
         .price-container { display: flex; align-items: baseline; gap: 15px; }
-        .old-price { font-size: 1.5rem; text-decoration: line-through; opacity: 0.4; font-weight: 300; }
+        .old-price { font-size: 1.5rem; text-decoration: line-through; opacity: 0.4; }
         .price { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; }
 
-        /* BOTTOM TICKER */
+        /* TICKER */
         .ticker-wrap {
             position: fixed; bottom: 0; width: 100%; background: #000;
             padding: 12px 0; font-family: monospace; font-size: 0.65rem; z-index: 200;
@@ -121,58 +142,46 @@
     </audio>
 
     <div class="main-face" id="home">
-        <span style="font-size: 0.65rem; letter-spacing: 8px; color: var(--accent); font-weight: bold;">73NQ // ALGO TRADING</span>
-        <h1>73nq</h1>
-        <h2 style="font-size: 0.8rem; letter-spacing: 15px; opacity: 0.5; margin: 15px 0 40px 0;">RELENTLESS PURSUIT.</h2>
+        <span class="fade-item" style="font-size: 0.65rem; letter-spacing: 8px; color: var(--accent); font-weight: bold; display: block;">73NQ // ALGO TRADING</span>
+        <h1 class="fade-item">73nq</h1>
+        <h2 class="fade-item" style="font-size: 0.8rem; letter-spacing: 15px; opacity: 0.5; margin: 15px 0 40px 0;">RELENTLESS PURSUIT.</h2>
 
-        <div class="btn-group">
+        <div class="btn-group fade-item">
             <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn"><i class="fa-brands fa-discord"></i></a>
             <a href="https://www.instagram.com/1heeeb777" target="_blank" class="btn"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.tiktok.com/@73nqqq" target="_blank" class="btn"><i class="fa-brands fa-tiktok"></i></a>
         </div>
 
-        <button class="model-access-btn" onclick="toggleModel()">Explore Mentorship</button>
+        <button class="model-access-btn fade-item model-access-btn-main" onclick="toggleModel()">Explore Mentorship</button>
     </div>
 
     <div class="model-page" id="modelPage">
         <div class="close-btn" onclick="toggleModel()"><i class="fas fa-times"></i></div>
-        
         <div class="mentorship-content">
             <div class="description">
                 "1-to-1 mentoring showing exactly how I take executions and precise entries, how you build your own edge & model in the market."
             </div>
-
             <div class="proof-title">Verified Proof // High-RR Wins & Results</div>
-            
             <div class="proof-grid">
-                <div class="proof-item" onclick="openProof('./image_2.png')"><img src="./image_2.png" alt="21RR Win"></div>
-                <div class="proof-item" onclick="openProof('./image_4.png')"><img src="./image_4.png" alt="244pt Nasdaq Win"></div>
-                <div class="proof-item" onclick="openProof('./image_5.png')"><img src="./image_5.png" alt="Alpha Futures 15RR"></div>
-                
-                <div class="proof-item" onclick="openProof('./image_3.png')"><img src="./image_3.png" alt="Discord Payout Conf"></div>
-                
-                <div class="proof-item" onclick="openProof('./image_6.png')"><img src="./image_6.png" alt="Mahir - W Narrative"></div>
-                <div class="proof-item" onclick="openProof('./image_10.png')"><img src="./image_10.png" alt="Raf Testimonial"></div>
-                
-                <div class="proof-item" onclick="openProof('./image_7.png')"><img src="./image_7.png" alt="Advanced Eval Passed"></div>
-                <div class="proof-item" onclick="openProof('./image_8.png')"><img src="./image_8.png" alt="March Payout Calendar"></div>
-                <div class="proof-item" onclick="openProof('./image_9.png')"><img src="./image_9.png" alt="Feb Payout Calendar"></div>
+                <div class="proof-item" onclick="openProof('./image_2.png')"><img src="./image_2.png"></div>
+                <div class="proof-item" onclick="openProof('./image_4.png')"><img src="./image_4.png"></div>
+                <div class="proof-item" onclick="openProof('./image_5.png')"><img src="./image_5.png"></div>
+                <div class="proof-item" onclick="openProof('./image_3.png')"><img src="./image_3.png"></div>
+                <div class="proof-item" onclick="openProof('./image_6.png')"><img src="./image_6.png"></div>
+                <div class="proof-item" onclick="openProof('./image_10.png')"><img src="./image_10.png"></div>
+                <div class="proof-item" onclick="openProof('./image_7.png')"><img src="./image_7.png"></div>
+                <div class="proof-item" onclick="openProof('./image_8.png')"><img src="./image_8.png"></div>
+                <div class="proof-item" onclick="openProof('./image_9.png')"><img src="./image_9.png"></div>
             </div>
-
             <div class="price-lock">
-                <div class="early-access-tag">Limited Time Offer</div>
-                <div class="price-container">
-                    <span class="old-price">$129.99</span>
-                    <span class="price">$39.99</span>
-                </div>
+                <div class="price-container"><span class="old-price">$129.99</span><span class="price">$39.99</span></div>
                 <button class="model-access-btn" style="width: 100%; background: var(--accent); color: black;">Claim Early Access</button>
             </div>
         </div>
     </div>
 
     <div class="proof-modal" id="proofModal" onclick="closeProof()">
-        <div class="modal-close"><i class="fas fa-times"></i></div>
-        <img src="" id="modalImg" alt="Verified Result">
+        <img src="" id="modalImg">
     </div>
 
     <div class="ticker-wrap">
@@ -186,29 +195,20 @@
     </div>
 
     <script>
-        const modal = document.getElementById('proofModal');
-        const modalImg = document.getElementById('modalImg');
-
-        function openProof(imgSrc) {
-            modalImg.src = imgSrc;
-            modal.classList.add('active');
-        }
-
-        function closeProof() {
-            modal.classList.remove('active');
-        }
-
         function toggleModel() {
             const page = document.getElementById('modelPage');
             const home = document.getElementById('home');
             page.classList.toggle('active');
             home.classList.toggle('hidden');
         }
-
-        function playAudio() {
-            document.getElementById("bgMusic").play();
+        function openProof(imgSrc) {
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('proofModal').classList.add('active');
         }
+        function closeProof() {
+            document.getElementById('proofModal').classList.remove('active');
+        }
+        function playAudio() { document.getElementById("bgMusic").play(); }
     </script>
-
 </body>
 </html>
