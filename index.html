@@ -73,18 +73,9 @@
         .close-btn { position: fixed; top: 40px; right: 40px; font-size: 1.8rem; cursor: pointer; opacity: 0.4; transition: 0.3s; z-index: 110; }
         .close-btn:hover { opacity: 1; transform: rotate(90deg); }
 
-        .mentorship-content { max-width: 650px; width: 100%; text-align: center; margin-top: 60px; }
+        .mentorship-content { max-width: 600px; width: 100%; text-align: center; margin-top: 60px; }
 
         .description { font-size: 1.1rem; line-height: 1.6; margin-bottom: 50px; font-weight: 300; color: rgba(255, 255, 255, 0.9); letter-spacing: 1px; }
-
-        /* SPECS GRID WITH VISUAL */
-        .specs-grid {
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; margin-bottom: 50px; text-align: left;
-        }
-        .spec-item { border-left: 1px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
-        .spec-label { font-size: 0.6rem; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; font-weight: bold; }
-        .spec-value { font-size: 0.9rem; opacity: 0.7; margin-top: 5px; line-height: 1.4; }
-        .spec-visual img { width: 100%; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); filter: contrast(1.1); }
 
         /* PROOF GRID */
         .proof-title { font-size: 0.7rem; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; font-weight: bold; margin-bottom: 20px; text-align: left;}
@@ -110,11 +101,6 @@
         .ticker span { margin-right: 60px; color: var(--accent); }
         @keyframes tickerMove { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* MOBILE FIX FOR SPECS */
-        @media (max-width: 600px) {
-            .specs-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 4rem; letter-spacing: -3px; }
-        }
     </style>
 </head>
 <body onclick="playAudio()">
@@ -143,43 +129,19 @@
             <div class="description">
                 "1-to-1 mentoring showing exactly how I take executions and precise entries, how you build your own edge & model in the market."
             </div>
-
-            <div class="proof-title">Model Specifications</div>
-            <div class="specs-grid">
-                <div class="specs-text">
-                    <div class="spec-item">
-                        <div class="spec-label">Architecture</div>
-                        <div class="spec-value">Mainly **STDV** & **OTE** confluences. I explain exactly how it works with the mathematical distribution provided beside.</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Market Scope</div>
-                        <div class="spec-value">Exclusively optimized for **NQ1!** & **ES1!** index futures.</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Edge</div>
-                        <div class="spec-value">Built for Prop Firm Passing & Scaling to 6-figure payouts.</div>
-                    </div>
-                </div>
-                <div class="spec-visual">
-                    <img src="./image_11.PNG">
-                    <div style="font-size: 0.5rem; color: var(--accent); padding: 8px; text-align: center; letter-spacing: 1px;">DISTRIBUTION ANALYSIS // STDV</div>
-                </div>
-            </div>
-
             <div class="proof-title">Verified Proof // High-RR Wins & Results</div>
             <div class="proof-grid">
-                <div class="proof-item" onclick="openProof('./image_2.PNG')"><img src="./image_2.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_4.PNG')"><img src="./image_4.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_5.PNG')"><img src="./image_5.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_3.PNG')"><img src="./image_3.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_6.PNG')"><img src="./image_6.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_10.PNG')"><img src="./image_10.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_7.PNG')"><img src="./image_7.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_8.PNG')"><img src="./image_8.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_9.PNG')"><img src="./image_9.PNG"></div>
-                <div class="proof-item" onclick="openProof('./image_1.PNG')"><img src="./image_1.PNG"></div>
+                <div class="proof-item" onclick="openProof('./image_1.png')"><img src="./image_1.png"></div>
+                <div class="proof-item" onclick="openProof('./image_2.png')"><img src="./image_2.png"></div>
+                <div class="proof-item" onclick="openProof('./image_3.png')"><img src="./image_3.png"></div>
+                <div class="proof-item" onclick="openProof('./image_4.png')"><img src="./image_4.png"></div>
+                <div class="proof-item" onclick="openProof('./image_5.png')"><img src="./image_5.png"></div>
+                <div class="proof-item" onclick="openProof('./image_6.png')"><img src="./image_6.png"></div>
+                <div class="proof-item" onclick="openProof('./image_7.png')"><img src="./image_7.png"></div>
+                <div class="proof-item" onclick="openProof('./image_8.png')"><img src="./image_8.png"></div>
+                <div class="proof-item" onclick="openProof('./image_9.png')"><img src="./image_9.png"></div>
+                <div class="proof-item" onclick="openProof('./image_10.png')"><img src="./image_10.png"></div>
             </div>
-            
             <div class="price-lock">
                 <div class="price-container"><span class="old-price">$129.99</span><span class="price">$39.99</span></div>
                 <button class="model-access-btn" style="width: 100%; background: var(--accent); color: black;">Claim Early Access</button>
@@ -193,11 +155,8 @@
 
     <div class="ticker-wrap">
         <div class="ticker">
-            <span>NAS100: 18,245.30 (+1.24%)</span>
-            <span>XAUUSD: 2,154.20 (+0.45%)</span>
-            <span>BTC: 68,432.10 (+2.10%)</span>
+            <span>NQ1!: 26,840.75 (+1.28%)</span>
             <span>73NQ: STATUS RELENTLESS</span>
-            <span>ORDERFLOW: RECOGNIZED</span>
         </div>
     </div>
 
