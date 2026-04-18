@@ -6,80 +6,72 @@
     <title>73nq | Relentless Pursuit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --glass: rgba(0, 0, 0, 0.4);
-            --border: rgba(255, 255, 255, 0.15);
-            --accent: #2ecc71;
-            /* Silver Dark Gradient for the title */
-            --silver: linear-gradient(180deg, #ffffff 0%, #a1a1a1 50%, #4a4a4a 100%);
-        }
-
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000;
-            color: white; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            background-color: #000; /* Fallback if video fails */
+            color: white; font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
-        /* FIXED VIDEO BACKGROUND */
+        /* This forces the video to stay behind EVERYTHING */
         #video-bg {
             position: fixed;
-            right: 0;
-            bottom: 0;
+            top: 50%;
+            left: 50%;
             min-width: 100%;
             min-height: 100%;
-            z-index: -1;
+            width: auto;
+            height: auto;
+            z-index: -100; /* Extremely low so it stays back */
+            transform: translateX(-50%) translateY(-50%);
             object-fit: cover;
-            filter: brightness(0.45); /* Darkened for better text visibility */
+            filter: brightness(0.5);
+            background-size: cover;
         }
 
         .main-container {
-            position: relative; z-index: 10; text-align: center;
-            width: 85%; max-width: 450px; padding: 50px 20px;
-            background: var(--glass); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border); border-radius: 2px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 85%;
+            max-width: 450px;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
         }
-
-        .nasdaq-tag { font-size: 0.6rem; letter-spacing: 5px; font-weight: bold; color: var(--accent); margin-bottom: 10px; display: block; }
 
         h1 {
-            font-size: 5.5rem; margin: 0; letter-spacing: -5px; font-weight: 900;
-            text-transform: lowercase; line-height: 0.9;
-            background: var(--silver); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8));
+            font-size: 5rem;
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: -4px;
+            /* Silver Gradient */
+            background: linear-gradient(180deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        h2 { font-size: 0.75rem; letter-spacing: 12px; text-transform: uppercase; opacity: 0.6; margin-top: 10px; margin-bottom: 40px; }
-
-        .btn-group { display: flex; justify-content: center; gap: 20px; }
-
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
         .btn {
-            text-decoration: none; color: white; border: 1px solid var(--border);
-            width: 55px; height: 55px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; background: rgba(0,0,0,0.4); transition: 0.3s ease; border-radius: 2px;
+            text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.2);
+            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; border-radius: 4px; transition: 0.3s;
         }
-
-        .btn:hover { background: white; color: black; transform: translateY(-3px); }
+        .btn:hover { background: white; color: black; }
 
         .ticker-wrap {
-            position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.9);
-            padding: 12px 0; font-family: monospace; font-size: 0.65rem;
-            overflow: hidden; border-top: 1px solid var(--border);
+            position: fixed; bottom: 0; width: 100%; background: black;
+            padding: 10px 0; font-family: monospace; font-size: 0.6rem;
         }
-
-        .ticker { display: inline-block; white-space: nowrap; animation: tickerMove 40s linear infinite; }
-        .ticker span { margin-right: 60px; color: var(--accent); }
-
-        @keyframes tickerMove { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .music-info { margin-top: 35px; font-size: 0.55rem; opacity: 0.5; letter-spacing: 2px; cursor: pointer; }
-        .playing { color: var(--accent); opacity: 1; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-
+        .ticker { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
-<body onclick="playAudio()">
+<body onclick="playAll()">
 
     <video autoplay muted loop playsinline id="video-bg">
         <source src="background.MP4" type="video/mp4">
@@ -90,51 +82,33 @@
     </audio>
 
     <div class="main-container">
-        <span class="nasdaq-tag">NASDAQ // 73NQ</span>
-        <h1>73nq</h1>
-        <h2>RELENTLESS PURSUIT.</h2>
+        <h1 id="title">73nq</h1>
+        <p style="letter-spacing: 8px; font-size: 0.7rem; opacity: 0.7;">RELENTLESS PURSUIT</p>
 
         <div class="btn-group">
-            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn" title="Discord">
-                <i class="fa-brands fa-discord"></i>
-            </a>
-            <a href="https://www.instagram.com/1heeeb777" target="_blank" class="btn" title="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.tiktok.com/@73nqqq?_r=1&_t=ZS-95cOIcicinf" target="_blank" class="btn" title="TikTok">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
+            <a href="https://discord.gg/ZNVeRGHFr" target="_blank" class="btn"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://www.instagram.com/1heeeb777" target="_blank" class="btn"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@73nqqq" target="_blank" class="btn"><i class="fa-brands fa-tiktok"></i></a>
         </div>
-
-        <div class="music-info" id="status">
-            [ TAP ANYWHERE TO START AUDIO ]
-        </div>
+        
+        <p id="audio-status" style="font-size: 0.5rem; margin-top: 30px; opacity: 0.4;">[ TAP TO ACTIVATE EXPERIENCE ]</p>
     </div>
 
     <div class="ticker-wrap">
         <div class="ticker">
-            <span>NAS100: 18,245.30 (+1.24%)</span>
-            <span>GOLD: 2,154.20 (+0.45%)</span>
-            <span>BTC: 68,432.10 (+2.10%)</span>
-            <span>ALPHA FUTURES: CERTIFIED</span>
-            <span>STATUS: RELENTLESS</span>
-            <span>SMART MONEY: ACTIVE</span>
+            <span style="color:#2ecc71; margin-right: 50px;">NAS100: 18,245.30 (+1.24%)</span>
+            <span style="color:#2ecc71; margin-right: 50px;">BTC: 68,432.10 (+2.10%)</span>
+            <span style="color:#2ecc71; margin-right: 50px;">ALPHA FUTURES: CERTIFIED</span>
         </div>
     </div>
 
     <script>
-        var audio = document.getElementById("bgMusic");
-        var statusText = document.getElementById("status");
-
-        function playAudio() {
-            audio.play().then(() => {
-                statusText.innerHTML = "[ AUDIO ACTIVE: NOT AGAIN - MIAMI BEACH ]";
-                statusText.classList.add("playing");
-            }).catch(error => {
-                console.log("Audio waiting for interaction");
-            });
+        function playAll() {
+            document.getElementById("bgMusic").play();
+            document.getElementById("video-bg").play();
+            document.getElementById("audio-status").innerHTML = "[ AUDIO & VIDEO ACTIVE ]";
+            document.getElementById("audio-status").style.color = "#2ecc71";
         }
     </script>
-
 </body>
 </html>
