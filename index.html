@@ -10,6 +10,7 @@
             --glass: rgba(0, 0, 0, 0.4);
             --border: rgba(255, 255, 255, 0.15);
             --accent: #2ecc71;
+            /* Silver Dark Gradient for the title */
             --silver: linear-gradient(180deg, #ffffff 0%, #a1a1a1 50%, #4a4a4a 100%);
         }
 
@@ -20,7 +21,7 @@
             display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        /* VIDEO BACKGROUND STYLING */
+        /* FIXED VIDEO BACKGROUND */
         #video-bg {
             position: fixed;
             right: 0;
@@ -29,8 +30,7 @@
             min-height: 100%;
             z-index: -1;
             object-fit: cover;
-            /* Darkening the video so text stays readable */
-            filter: brightness(0.5);
+            filter: brightness(0.45); /* Darkened for better text visibility */
         }
 
         .main-container {
@@ -131,7 +131,7 @@
                 statusText.innerHTML = "[ AUDIO ACTIVE: NOT AGAIN - MIAMI BEACH ]";
                 statusText.classList.add("playing");
             }).catch(error => {
-                console.log("Waiting for user interaction...");
+                console.log("Audio waiting for interaction");
             });
         }
     </script>
