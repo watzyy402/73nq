@@ -22,13 +22,9 @@
 
         /* MAIN LANDING FACE */
         .main-face {
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 10;
+            text-align: center; width: 90%; max-width: 500px;
+            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); z-index: 10;
         }
-
         .main-face.hidden { transform: scale(0.85); opacity: 0; pointer-events: none; }
 
         h1 {
@@ -55,46 +51,55 @@
         }
         .model-access-btn:hover { background: var(--accent); color: black; box-shadow: 0 0 30px rgba(46, 204, 113, 0.4); }
 
-        /* SLIDE-UP MENTORSHIP PAGE */
+        /* SLIDE-UP MENTORSHIP PAGE with Scrollbar */
         .model-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.96); backdrop-filter: blur(30px);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center;
             transform: translateY(100%); transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 100; padding: 40px; box-sizing: border-box;
+            z-index: 100; padding: 40px 20px; box-sizing: border-box; overflow-y: auto;
         }
-
         .model-page.active { transform: translateY(0); }
 
-        .close-btn { position: absolute; top: 40px; right: 40px; font-size: 1.8rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
+        .close-btn { position: fixed; top: 40px; right: 40px; font-size: 1.8rem; cursor: pointer; opacity: 0.4; transition: 0.3s; z-index: 110; }
         .close-btn:hover { opacity: 1; transform: rotate(90deg); }
 
-        .mentorship-content { max-width: 500px; width: 100%; text-align: center; }
+        .mentorship-content { max-width: 600px; width: 100%; text-align: center; margin-top: 60px; }
 
         .description {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 1px;
+            font-size: 1.1rem; line-height: 1.6; margin-bottom: 50px;
+            font-weight: 300; color: rgba(255, 255, 255, 0.9); letter-spacing: 1px;
         }
+
+        /* VERIFIED PROOF GRID (Updated to reflect 10 images) */
+        .proof-title { font-size: 0.7rem; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; font-weight: bold; margin-bottom: 20px; text-align: left;}
+        .proof-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 50px; width: 100%;
+        }
+        .proof-item {
+            aspect-ratio: 9/16; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;
+            background: #000; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .proof-item:hover { transform: scale(1.05); border-color: var(--accent); }
+        .proof-item img { width: 100%; height: 100%; object-fit: cover; }
+        .proof-item::after { content: "\f00e"; font-family: "Font Awesome 5 Free"; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--accent); font-size: 1.5rem; opacity: 0; transition: 0.3s; }
+        .proof-item:hover::after { opacity: 1; }
+
+        /* Fullscreen Proof Modal */
+        .proof-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px); z-index: 1000; display: none; align-items: center; justify-content: center;
+        }
+        .proof-modal.active { display: flex; }
+        .proof-modal img { max-width: 90%; max-height: 90%; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+        .modal-close { position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: white; opacity: 0.5; cursor: pointer; }
+        .modal-close:hover { opacity: 1; }
 
         /* PRICING SECTION */
-        .price-lock { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
-        
-        .early-access-tag {
-            font-size: 0.7rem; letter-spacing: 4px; color: var(--accent);
-            text-transform: uppercase; font-weight: bold; margin-bottom: 5px;
-        }
-
+        .price-lock { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; margin-bottom: 60px; }
+        .early-access-tag { font-size: 0.7rem; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; font-weight: bold; }
         .price-container { display: flex; align-items: baseline; gap: 15px; }
-
-        .old-price {
-            font-size: 1.5rem; text-decoration: line-through;
-            opacity: 0.4; font-weight: 300;
-        }
-
+        .old-price { font-size: 1.5rem; text-decoration: line-through; opacity: 0.4; font-weight: 300; }
         .price { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; }
 
         /* BOTTOM TICKER */
@@ -133,12 +138,29 @@
         <div class="close-btn" onclick="toggleModel()"><i class="fas fa-times"></i></div>
         
         <div class="mentorship-content">
-            <div class="early-access-tag">Limited Time Offer</div>
             <div class="description">
                 "1-to-1 mentoring showing exactly how I take executions and precise entries, how you build your own edge & model in the market."
             </div>
 
+            <div class="proof-title">Verified Proof // High-RR Wins & Results</div>
+            
+            <div class="proof-grid">
+                <div class="proof-item" onclick="openProof('./image_2.png')"><img src="./image_2.png" alt="21RR Win"></div>
+                <div class="proof-item" onclick="openProof('./image_4.png')"><img src="./image_4.png" alt="244pt Nasdaq Win"></div>
+                <div class="proof-item" onclick="openProof('./image_5.png')"><img src="./image_5.png" alt="Alpha Futures 15RR"></div>
+                
+                <div class="proof-item" onclick="openProof('./image_3.png')"><img src="./image_3.png" alt="Discord Payout Conf"></div>
+                
+                <div class="proof-item" onclick="openProof('./image_6.png')"><img src="./image_6.png" alt="Mahir - W Narrative"></div>
+                <div class="proof-item" onclick="openProof('./image_10.png')"><img src="./image_10.png" alt="Raf Testimonial"></div>
+                
+                <div class="proof-item" onclick="openProof('./image_7.png')"><img src="./image_7.png" alt="Advanced Eval Passed"></div>
+                <div class="proof-item" onclick="openProof('./image_8.png')"><img src="./image_8.png" alt="March Payout Calendar"></div>
+                <div class="proof-item" onclick="openProof('./image_9.png')"><img src="./image_9.png" alt="Feb Payout Calendar"></div>
+            </div>
+
             <div class="price-lock">
+                <div class="early-access-tag">Limited Time Offer</div>
                 <div class="price-container">
                     <span class="old-price">$129.99</span>
                     <span class="price">$39.99</span>
@@ -148,17 +170,34 @@
         </div>
     </div>
 
+    <div class="proof-modal" id="proofModal" onclick="closeProof()">
+        <div class="modal-close"><i class="fas fa-times"></i></div>
+        <img src="" id="modalImg" alt="Verified Result">
+    </div>
+
     <div class="ticker-wrap">
         <div class="ticker">
             <span>NAS100: 18,245.30 (+1.24%)</span>
             <span>XAUUSD: 2,154.20 (+0.45%)</span>
             <span>BTC: 68,432.10 (+2.10%)</span>
-            <span>73NQ: EARLY ACCESS OPEN</span>
+            <span>73NQ MODEL: EARLY ACCESS OPEN // LIVE</span>
             <span>STATUS: RELENTLESS</span>
         </div>
     </div>
 
     <script>
+        const modal = document.getElementById('proofModal');
+        const modalImg = document.getElementById('modalImg');
+
+        function openProof(imgSrc) {
+            modalImg.src = imgSrc;
+            modal.classList.add('active');
+        }
+
+        function closeProof() {
+            modal.classList.remove('active');
+        }
+
         function toggleModel() {
             const page = document.getElementById('modelPage');
             const home = document.getElementById('home');
