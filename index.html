@@ -20,22 +20,22 @@
             display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        /* FLOATING MAIN FACE (Box Removed) */
+        /* MAIN LANDING FACE */
         .main-face {
             text-align: center;
             width: 90%;
             max-width: 500px;
-            transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
             z-index: 10;
         }
 
-        .main-face.hidden { transform: scale(0.8); opacity: 0; pointer-events: none; }
+        .main-face.hidden { transform: scale(0.85); opacity: 0; pointer-events: none; }
 
         h1 {
             font-size: 6.5rem; margin: 0; letter-spacing: -6px; font-weight: 900;
             text-transform: lowercase; line-height: 0.8;
             background: var(--silver); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.6));
         }
 
         .btn-group { display: flex; justify-content: center; gap: 20px; margin: 40px 0; }
@@ -55,36 +55,53 @@
         }
         .model-access-btn:hover { background: var(--accent); color: black; box-shadow: 0 0 30px rgba(46, 204, 113, 0.4); }
 
-        /* PREMIUM MODEL PAGE */
+        /* SLIDE-UP MENTORSHIP PAGE */
         .model-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(25px);
+            background: rgba(0,0,0,0.96); backdrop-filter: blur(30px);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transform: translateY(100%); transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 100; padding: 30px; box-sizing: border-box;
+            z-index: 100; padding: 40px; box-sizing: border-box;
         }
 
         .model-page.active { transform: translateY(0); }
 
-        .close-btn { position: absolute; top: 40px; right: 40px; font-size: 1.8rem; cursor: pointer; opacity: 0.6; transition: 0.3s; }
+        .close-btn { position: absolute; top: 40px; right: 40px; font-size: 1.8rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
         .close-btn:hover { opacity: 1; transform: rotate(90deg); }
 
-        .details-container {
-            max-width: 600px; width: 100%; text-align: left;
-            border-left: 2px solid var(--accent); padding-left: 30px;
+        .mentorship-content { max-width: 500px; width: 100%; text-align: center; }
+
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 1px;
         }
 
-        .detail-item { margin-bottom: 25px; }
-        .detail-title { color: var(--accent); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: bold; }
-        .detail-text { font-size: 0.9rem; opacity: 0.8; line-height: 1.6; margin-top: 5px; }
+        /* PRICING SECTION */
+        .price-lock { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+        
+        .early-access-tag {
+            font-size: 0.7rem; letter-spacing: 4px; color: var(--accent);
+            text-transform: uppercase; font-weight: bold; margin-bottom: 5px;
+        }
 
-        .price-lock { margin-top: 40px; display: flex; align-items: center; gap: 20px; }
-        .price { font-size: 2.5rem; font-weight: 900; }
+        .price-container { display: flex; align-items: baseline; gap: 15px; }
 
-        /* TICKER */
+        .old-price {
+            font-size: 1.5rem; text-decoration: line-through;
+            opacity: 0.4; font-weight: 300;
+        }
+
+        .price { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; }
+
+        /* BOTTOM TICKER */
         .ticker-wrap {
             position: fixed; bottom: 0; width: 100%; background: #000;
             padding: 12px 0; font-family: monospace; font-size: 0.65rem; z-index: 200;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
         .ticker { display: inline-block; white-space: nowrap; animation: tickerMove 35s linear infinite; }
         .ticker span { margin-right: 60px; color: var(--accent); }
@@ -109,31 +126,24 @@
             <a href="https://www.tiktok.com/@73nqqq" target="_blank" class="btn"><i class="fa-brands fa-tiktok"></i></a>
         </div>
 
-        <button class="model-access-btn" onclick="toggleModel()">Explore Model</button>
+        <button class="model-access-btn" onclick="toggleModel()">Explore Mentorship</button>
     </div>
 
     <div class="model-page" id="modelPage">
         <div class="close-btn" onclick="toggleModel()"><i class="fas fa-times"></i></div>
         
-        <div class="details-container">
-            <div class="detail-item">
-                <div class="detail-title">The Strategy</div>
-                <div class="detail-text" id="strategy-desc">Waiting for your specific model details...</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-title">Execution</div>
-                <div class="detail-text" id="execution-desc">Describe your entry and exit rules here.</div>
-            </div>
-
-            <div class="detail-item">
-                <div class="detail-title">Performance</div>
-                <div class="detail-text" id="performance-desc">Add your recent win rates or payout history.</div>
+        <div class="mentorship-content">
+            <div class="early-access-tag">Limited Time Offer</div>
+            <div class="description">
+                "1-to-1 mentoring showing exactly how I take executions and precise entries, how you build your own edge & model in the market."
             </div>
 
             <div class="price-lock">
-                <div class="price">$39.99</div>
-                <button class="model-access-btn" style="flex:1;">Join the 1%</button>
+                <div class="price-container">
+                    <span class="old-price">$129.99</span>
+                    <span class="price">$39.99</span>
+                </div>
+                <button class="model-access-btn" style="width: 100%; background: var(--accent); color: black;">Claim Early Access</button>
             </div>
         </div>
     </div>
@@ -143,8 +153,8 @@
             <span>NAS100: 18,245.30 (+1.24%)</span>
             <span>XAUUSD: 2,154.20 (+0.45%)</span>
             <span>BTC: 68,432.10 (+2.10%)</span>
-            <span>SYSTEM STATUS: OPERATIONAL</span>
-            <span>ORDERFLOW: DETECTED</span>
+            <span>73NQ: EARLY ACCESS OPEN</span>
+            <span>STATUS: RELENTLESS</span>
         </div>
     </div>
 
