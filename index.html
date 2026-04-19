@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>73nq | Relentless Pursuit</title>
+    <title>73nq x huzzino | Relentless Pursuit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -24,10 +24,9 @@
 
         @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
 
-        .main-face { text-align: center; width: 90%; max-width: 500px; transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); z-index: 10; }
+        .main-face { text-align: center; width: 90%; max-width: 600px; transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); z-index: 10; }
         .fade-item { opacity: 0; transform: translateY(30px); animation: heroFade 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         
-        /* STAGGERED TIMING */
         .main-face span { animation-delay: 0.6s; }
         .main-face h1 { animation-delay: 0.9s; }
         .main-face h2 { animation-delay: 1.2s; }
@@ -38,7 +37,7 @@
         .main-face.hidden { transform: scale(0.85); opacity: 0; pointer-events: none; }
 
         h1 {
-            font-size: 6.5rem; margin: 0; letter-spacing: -6px; font-weight: 900;
+            font-size: 5rem; margin: 0; letter-spacing: -4px; font-weight: 900;
             text-transform: lowercase; line-height: 0.8;
             background: var(--silver); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.6));
@@ -73,13 +72,14 @@
         .close-btn { position: fixed; top: 40px; right: 40px; font-size: 1.8rem; cursor: pointer; opacity: 0.4; transition: 0.3s; z-index: 110; }
         .close-btn:hover { opacity: 1; transform: rotate(90deg); }
 
-        .mentorship-content { max-width: 600px; width: 100%; text-align: center; margin-top: 60px; }
-
+        .mentorship-content { max-width: 800px; width: 100%; text-align: center; margin-top: 60px; }
         .description { font-size: 1.1rem; line-height: 1.6; margin-bottom: 50px; font-weight: 300; color: rgba(255, 255, 255, 0.9); letter-spacing: 1px; }
 
-        /* PROOF GRID */
-        .proof-title { font-size: 0.7rem; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; font-weight: bold; margin-bottom: 20px; text-align: left;}
-        .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 50px; width: 100%; }
+        /* PARTNER SPLIT SECTIONS */
+        .partner-section { margin-bottom: 80px; width: 100%; }
+        .proof-title { font-size: 0.7rem; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; font-weight: bold; margin-bottom: 25px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+        
+        .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; width: 100%; }
         .proof-item { aspect-ratio: 9/16; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; background: #000; cursor: pointer; transition: 0.3s; }
         .proof-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
         .proof-item:hover img { opacity: 1; }
@@ -110,8 +110,8 @@
     </audio>
 
     <div class="main-face" id="home">
-        <span class="fade-item" style="font-size: 0.65rem; letter-spacing: 8px; color: var(--accent); font-weight: bold; display: block;">73NQ // ALGO TRADING</span>
-        <h1 class="fade-item">73nq</h1>
+        <span class="fade-item" style="font-size: 0.65rem; letter-spacing: 8px; color: var(--accent); font-weight: bold; display: block;">73NQ x HUZZINO</span>
+        <h1 class="fade-item">73nq x huzzino</h1>
         <h2 class="fade-item" style="font-size: 0.8rem; letter-spacing: 15px; opacity: 0.5; margin: 15px 0 40px 0;">RELENTLESS PURSUIT.</h2>
 
         <div class="btn-group fade-item">
@@ -127,23 +127,34 @@
         <div class="close-btn" onclick="toggleModel()"><i class="fas fa-times"></i></div>
         <div class="mentorship-content">
             <div class="description">
-                "1-to-1 mentoring showing exactly how I take executions and precise entries, how you build your own edge & model in the market."
+                "A dual-engine mentorship. Master the 73NQ algorithmic model and Huzzino's advanced SMC strategies in one elite environment."
             </div>
-            <div class="proof-title">Verified Proof // High-RR Wins & Results</div>
-            <div class="proof-grid">
-                <div class="proof-item" onclick="openProof('./image_1.png')"><img src="./image_1.png"></div>
-                <div class="proof-item" onclick="openProof('./image_2.png')"><img src="./image_2.png"></div>
-                <div class="proof-item" onclick="openProof('./image_3.png')"><img src="./image_3.png"></div>
-                <div class="proof-item" onclick="openProof('./image_4.png')"><img src="./image_4.png"></div>
-                <div class="proof-item" onclick="openProof('./image_5.png')"><img src="./image_5.png"></div>
-                <div class="proof-item" onclick="openProof('./image_6.png')"><img src="./image_6.png"></div>
-                <div class="proof-item" onclick="openProof('./image_7.png')"><img src="./image_7.png"></div>
-                <div class="proof-item" onclick="openProof('./image_8.png')"><img src="./image_8.png"></div>
-                <div class="proof-item" onclick="openProof('./image_9.png')"><img src="./image_9.png"></div>
+
+            <div class="partner-section">
+                <div class="proof-title">73NQ // High-RR Wins & STDV Results</div>
+                <div class="proof-grid">
+                    <div class="proof-item" onclick="openProof('./image_1.png')"><img src="./image_1.png"></div>
+                    <div class="proof-item" onclick="openProof('./image_2.png')"><img src="./image_2.png"></div>
+                    <div class="proof-item" onclick="openProof('./image_3.png')"><img src="./image_3.png"></div>
+                    <div class="proof-item" onclick="openProof('./image_4.png')"><img src="./image_4.png"></div>
+                    <div class="proof-item" onclick="openProof('./image_5.png')"><img src="./image_5.png"></div>
+                </div>
             </div>
+
+            <div class="partner-section">
+                <div class="proof-title">HUZZINO // SMC Trades & Payout Proofs</div>
+                <div class="proof-grid">
+                    <div class="proof-item" onclick="openProof('./h_image_1.png')"><img src="./h_image_1.png"></div>
+                    <div class="proof-item" onclick="openProof('./h_image_2.png')"><img src="./h_image_2.png"></div>
+                    <div class="proof-item" onclick="openProof('./h_image_3.png')"><img src="./h_image_3.png"></div>
+                    <div class="proof-item" onclick="openProof('./h_image_4.png')"><img src="./h_image_4.png"></div>
+                    <div class="proof-item" onclick="openProof('./h_image_5.png')"><img src="./h_image_5.png"></div>
+                </div>
+            </div>
+            
             <div class="price-lock">
                 <div class="price-container"><span class="old-price">$129.99</span><span class="price">$39.99</span></div>
-                <button class="model-access-btn" style="width: 100%; background: var(--accent); color: black;">Claim Early Access</button>
+                <button class="model-access-btn" style="width: 100%; background: var(--accent); color: black;">Claim Dual Access</button>
             </div>
         </div>
     </div>
@@ -154,8 +165,10 @@
 
     <div class="ticker-wrap">
         <div class="ticker">
-            <span>NQ1!: 26,840.75 (+1.28%)</span>
-            <span>73NQ: STATUS RELENTLESS</span>
+            <span>NAS100: 18,245.30 (+1.24%)</span>
+            <span>XAUUSD: 2,154.20 (+0.45%)</span>
+            <span>73NQ x HUZZINO: COLLABORATION ACTIVE</span>
+            <span>SMC & STDV: CONFLUENCE</span>
         </div>
     </div>
 
