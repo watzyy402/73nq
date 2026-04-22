@@ -10,26 +10,35 @@
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #050505;
+            background-color: #000;
             color: #fff; font-family: 'Inter', -apple-system, sans-serif;
             display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        /* RESTORED ROLEX BACKGROUND */
+        /* FIXED ROLEX LAYER */
         .ambient-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,1) 100%),
-                url('./rolex.png');
-            background-size: cover; background-position: center;
-            filter: grayscale(100%) contrast(110%);
-            opacity: 0.5; z-index: -1;
-            animation: slowZoom 30s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%), 
+                        url('./rolex.png');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) contrast(115%);
+            opacity: 0.6; /* Higher opacity so it's not pure black */
+            z-index: 1; 
+            animation: slowZoom 30s infinite alternate ease-in-out;
+            pointer-events: none;
         }
 
-        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+        @keyframes slowZoom { 
+            from { transform: scale(1); } 
+            to { transform: scale(1.15); } 
+        }
 
-        /* BLIND REVEAL SYSTEM */
+        /* REVEAL SYSTEM */
         .reveal-box { overflow: hidden; margin-bottom: 5px; }
         .reveal-item { 
             transform: translateY(110%); 
@@ -37,7 +46,7 @@
         }
         @keyframes revealUp { to { transform: translateY(0); } }
 
-        .main-face { text-align: center; z-index: 10; width: 90%; }
+        .main-face { text-align: center; z-index: 10; width: 90%; position: relative; }
         
         .top-label { 
             font-size: 0.55rem; letter-spacing: 12px; text-transform: uppercase; 
@@ -84,7 +93,7 @@
         .overlay.active { transform: translateY(0); }
         .close-overlay { position: fixed; top: 50px; right: 50px; cursor: pointer; font-size: 0.55rem; letter-spacing: 4px; opacity: 0.3; }
 
-        /* PARTNER GRID STYLING */
+        /* GRID STYLING */
         .partner-group { max-width: 1000px; margin: 0 auto 100px auto; width: 100%; }
         .group-header { 
             display: flex; justify-content: space-between; align-items: center;
@@ -97,7 +106,7 @@
         .grid-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: 0.8s; filter: saturate(0); }
         .grid-item:hover img { opacity: 1; filter: saturate(1); transform: scale(1.05); }
 
-        /* PRICING & SCARCITY */
+        /* PRICING */
         .price-container { margin-top: 50px; text-align: center; }
         .old-price { font-size: 1.2rem; text-decoration: line-through; opacity: 0.2; letter-spacing: 4px; display: block; margin-bottom: 5px; }
         .new-price { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; }
@@ -113,7 +122,7 @@
         /* TICKER */
         .footer-ticker {
             position: fixed; bottom: 0; width: 100%; padding: 22px 0;
-            border-top: 1px solid rgba(255,255,255,0.03); background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.03); background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 50;
         }
         .ticker-text { display: flex; gap: 120px; animation: ticker 40s linear infinite; white-space: nowrap; }
         .ticker-text span { font-size: 0.55rem; letter-spacing: 4px; opacity: 0.2; font-family: monospace; }
@@ -130,7 +139,7 @@
     <div class="main-face">
         <div class="reveal-box"><div class="reveal-item top-label">73nq x huzzino</div></div>
         <div class="reveal-box"><h1 class="reveal-item">relentless pursuit.</h1></div>
-        <div class="reveal-box"><h2 class="reveal-item">Mastering Market Flow</h2></div>
+        <div class="reveal-box"><h2 class="reveal-item">Mastering Market Architecture</h2></div>
         
         <div class="reveal-box">
             <div class="reveal-item nav-links">
