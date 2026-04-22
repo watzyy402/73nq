@@ -10,26 +10,24 @@
 
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000;
+            background-color: #050505;
             color: #fff; font-family: 'Inter', -apple-system, sans-serif;
             display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        /* BACKGROUND VIDEO LAYER */
-        .video-container {
+        /* RESTORED ROLEX BACKGROUND */
+        .ambient-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; background: #000;
+            background-image: 
+                linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,1) 100%),
+                url('./rolex.png');
+            background-size: cover; background-position: center;
+            filter: grayscale(100%) contrast(110%);
+            opacity: 0.5; z-index: -1;
+            animation: slowZoom 30s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
         }
-        .video-bg {
-            width: 100%; height: 100%;
-            object-fit: cover; opacity: 0.45;
-            filter: grayscale(100%) contrast(115%);
-        }
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%);
-            z-index: -1;
-        }
+
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
 
         /* BLIND REVEAL SYSTEM */
         .reveal-box { overflow: hidden; margin-bottom: 5px; }
@@ -125,12 +123,7 @@
 </head>
 <body>
 
-    <div class="video-container">
-        <video autoplay muted loop playsinline class="video-bg" poster="./rolex.png">
-            <source src="bg.mp4#t=0.001" type="video/mp4">
-        </video>
-    </div>
-    <div class="bg-overlay"></div>
+    <div class="ambient-bg"></div>
 
     <audio id="bgMusic" loop><source src="theme.mp3" type="audio/mpeg"></audio>
 
@@ -225,12 +218,6 @@
     </div>
 
     <script>
-        // Force video play on first click
-        window.addEventListener('click', function() {
-            const video = document.querySelector('.video-bg');
-            if (video) video.play();
-        }, { once: true });
-
         function toggleMenu() {
             document.getElementById('menu').classList.toggle('active');
             const audio = document.getElementById('bgMusic');
