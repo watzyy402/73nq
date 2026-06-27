@@ -1,245 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>73nq x huzzino</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --accent: #2ecc71; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>73NQ — Market Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#000;
+  --panel:#080808;
+  --surface:#101010;
+  --gold:#C9A84C;
+  --gold-dim:rgba(201,168,76,0.18);
+  --gold-line:rgba(201,168,76,0.25);
+  --white:#F0F0F0;
+  --muted:rgba(240,240,240,0.35);
+  --dimmed:rgba(240,240,240,0.08);
+  --display:'Bebas Neue',sans-serif;
+  --body:'Inter',sans-serif;
+}
+html,body{width:100%;height:100%;background:var(--black);color:var(--white);font-family:var(--body);overflow:hidden;}
 
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000;
-            color: #fff; font-family: 'Inter', -apple-system, sans-serif;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-        }
+/* ════════════════════════════════════════════
+   INTRO
+════════════════════════════════════════════ */
+#intro{
+  position:fixed;inset:0;background:#000;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+#intro.gone{animation:introOut 0.8s cubic-bezier(0.77,0,0.175,1) forwards;}
+@keyframes introOut{to{transform:translateY(-100%);}}
 
-        /* FIXED ROLEX LAYER */
-        .ambient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%), 
-                        url('./rolex.png');
-            background-size: cover;
-            background-position: center;
-            filter: grayscale(100%) contrast(115%);
-            opacity: 0.6; /* Higher opacity so it's not pure black */
-            z-index: 1; 
-            animation: slowZoom 30s infinite alternate ease-in-out;
-            pointer-events: none;
-        }
+/* Globe SVG behind the logo */
+.globe-wrap{
+  position:absolute;
+  width:min(520px,90vw);
+  height:min(520px,90vw);
+  opacity:0;
+  animation:globeIn 1s ease 0.2s forwards;
+}
+@keyframes globeIn{to{opacity:1;}}
 
-        @keyframes slowZoom { 
-            from { transform: scale(1); } 
-            to { transform: scale(1.15); } 
-        }
+.globe-wrap svg{width:100%;height:100%;}
 
-        /* REVEAL SYSTEM */
-        .reveal-box { overflow: hidden; margin-bottom: 5px; }
-        .reveal-item { 
-            transform: translateY(110%); 
-            animation: revealUp 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards; 
-        }
-        @keyframes revealUp { to { transform: translateY(0); } }
+/* slow spin */
+.globe-spin{animation:globeSpin 18s linear infinite;}
+@keyframes globeSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-        .main-face { text-align: center; z-index: 10; width: 90%; position: relative; }
-        
-        .top-label { 
-            font-size: 0.55rem; letter-spacing: 12px; text-transform: uppercase; 
-            color: var(--accent); margin-bottom: 25px; font-weight: 700;
-            animation-delay: 0.3s;
-        }
+/* NASDAQ wordmark over globe */
+.nasdaq-wordmark{
+  position:relative;z-index:2;
+  font-family:var(--display);
+  font-size:clamp(4rem,18vw,10rem);
+  letter-spacing:0.05em;
+  color:var(--white);
+  opacity:0;
+  animation:nmIn 0.7s ease 0.9s forwards;
+  user-select:none;
+  text-shadow:0 0 80px rgba(201,168,76,0.25);
+}
+@keyframes nmIn{from{opacity:0;transform:scale(0.96);}to{opacity:1;transform:scale(1);}}
 
-        h1 {
-            font-size: clamp(2rem, 8vw, 4.5rem); margin: 0; font-weight: 900;
-            letter-spacing: -3px; line-height: 1; text-transform: lowercase;
-            animation-delay: 0.5s;
-        }
+/* gold underline sweep */
+.nasdaq-wordmark::after{
+  content:'';display:block;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  width:0%;margin:0 auto;
+  animation:lineSweep 0.7s ease 1.5s forwards;
+}
+@keyframes lineSweep{to{width:100%;}}
 
-        h2 {
-            font-size: 0.6rem; letter-spacing: 12px; opacity: 0.25; 
-            margin: 25px 0 60px 0; font-weight: 300; text-transform: uppercase;
-            animation-delay: 0.7s;
-        }
+/* whole intro content stack */
+.intro-content{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;position:relative;
+}
 
-        .nav-links { display: flex; justify-content: center; gap: 35px; margin-bottom: 50px; animation-delay: 0.9s; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 1.2rem; opacity: 0.3; transition: 0.5s; }
-        .nav-links a:hover { opacity: 1; transform: translateY(-5px); color: var(--accent); }
+/* fade the intro out triggers in JS */
 
-        .cta-trigger {
-            background: none; border: none; color: #fff; font-size: 0.65rem;
-            letter-spacing: 7px; text-transform: uppercase; font-weight: 700;
-            cursor: pointer; padding: 20px; position: relative; transition: 0.4s;
-            animation-delay: 1.1s;
-        }
-        .cta-trigger::after {
-            content: ''; position: absolute; bottom: 10px; left: 50%; width: 0;
-            height: 1px; background: var(--accent); transition: 0.4s; transform: translateX(-50%);
-        }
-        .cta-trigger:hover::after { width: 50px; }
-        .cta-trigger:hover { color: var(--accent); letter-spacing: 9px; }
 
-        /* OVERLAY MENTORSHIP */
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100; transform: translateY(100%);
-            transition: 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-            overflow-y: auto; padding: 100px 20px;
-        }
-        .overlay.active { transform: translateY(0); }
-        .close-overlay { position: fixed; top: 50px; right: 50px; cursor: pointer; font-size: 0.55rem; letter-spacing: 4px; opacity: 0.3; }
+/* ════════════════════════════════════════════
+   BACKGROUND
+════════════════════════════════════════════ */
+.bg-image{
+  position:fixed;inset:0;
+  background:url('./rolex.png') center/cover no-repeat;
+  filter:grayscale(100%) brightness(0.12) contrast(1.3);
+  z-index:1;pointer-events:none;
+  animation:slowPan 40s ease-in-out infinite alternate;
+}
+@keyframes slowPan{from{transform:scale(1);}to{transform:scale(1.1);}}
 
-        /* GRID STYLING */
-        .partner-group { max-width: 1000px; margin: 0 auto 100px auto; width: 100%; }
-        .group-header { 
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 35px;
-        }
-        .group-header span { font-size: 0.5rem; letter-spacing: 5px; text-transform: uppercase; opacity: 0.4; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
-        .grid-item { aspect-ratio: 9/16; background: #0a0a0a; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-        .grid-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: 0.8s; filter: saturate(0); }
-        .grid-item:hover img { opacity: 1; filter: saturate(1); transform: scale(1.05); }
+/* diagonal gold light leak — the signature atmospheric element */
+.light-leak{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 40% at 15% 80%, rgba(201,168,76,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 55% at 90% 10%, rgba(201,168,76,0.05) 0%, transparent 60%);
+}
 
-        /* PRICING */
-        .price-container { margin-top: 50px; text-align: center; }
-        .old-price { font-size: 1.2rem; text-decoration: line-through; opacity: 0.2; letter-spacing: 4px; display: block; margin-bottom: 5px; }
-        .new-price { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; }
+/* noise texture */
+.noise{
+  position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px;
+}
 
-        /* PAYMENT REVEAL */
-        .payment-reveal { display: none; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 50px; animation: auraRise 0.8s ease forwards; }
-        @keyframes auraRise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* IMAGE MODAL */
-        #imgModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        #imgModal img { max-width: 90%; max-height: 85vh; border: 1px solid rgba(255,255,255,0.1); }
+/* ════════════════════════════════════════════
+   HERO
+════════════════════════════════════════════ */
+#hero{
+  position:relative;z-index:10;
+  width:100%;height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:0 clamp(28px,7vw,100px) 60px;
+  opacity:0;
+}
+#hero.visible{animation:heroIn 1s ease 0.1s forwards;}
+@keyframes heroIn{to{opacity:1;}}
 
-        /* TICKER */
-        .footer-ticker {
-            position: fixed; bottom: 0; width: 100%; padding: 22px 0;
-            border-top: 1px solid rgba(255,255,255,0.03); background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 50;
-        }
-        .ticker-text { display: flex; gap: 120px; animation: ticker 40s linear infinite; white-space: nowrap; }
-        .ticker-text span { font-size: 0.55rem; letter-spacing: 4px; opacity: 0.2; font-family: monospace; }
-        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.hero-tag{
+  font-size:0.6rem;letter-spacing:10px;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin-bottom:20px;
+  display:flex;align-items:center;gap:14px;
+}
+.hero-tag::before{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:0.5;}
 
-    </style>
+.hero-h1{
+  font-family:var(--display);
+  font-size:clamp(5rem,16vw,13rem);
+  line-height:0.88;
+  letter-spacing:-0.01em;
+  color:var(--white);
+  margin-bottom:0;
+  text-transform:uppercase;
+}
+.hero-h1 .line-gold{color:var(--gold);}
+
+.hero-sub{
+  font-size:0.7rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--muted);font-weight:300;
+  margin-top:28px;margin-bottom:40px;
+  max-width:380px;line-height:2;
+}
+
+/* live bar */
+.live-bar{
+  display:inline-flex;align-items:center;gap:12px;
+  margin-bottom:44px;
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 10px var(--gold);
+  animation:ldot 2.2s ease-in-out infinite;
+}
+@keyframes ldot{0%,100%{opacity:1;}50%{opacity:0.25;}}
+.live-text{
+  font-size:0.5rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--muted);font-weight:500;
+}
+.live-pairs{color:var(--gold);}
+
+/* socials */
+.socials{display:flex;gap:26px;margin-bottom:48px;}
+.socials a{
+  color:var(--muted);font-size:1.05rem;text-decoration:none;
+  transition:color 0.35s,transform 0.35s;
+}
+.socials a:hover{color:var(--gold);transform:translateY(-4px);}
+
+/* CTA */
+.cta{
+  display:inline-flex;align-items:center;gap:16px;
+  background:var(--gold);color:#000;border:none;
+  font-family:var(--display);font-size:1.2rem;letter-spacing:3px;
+  padding:16px 48px;cursor:pointer;
+  transition:background 0.3s,box-shadow 0.3s,transform 0.2s;
+  box-shadow:0 8px 40px rgba(201,168,76,0.2);
+  text-transform:uppercase;
+}
+.cta:hover{background:#e0b84f;box-shadow:0 12px 60px rgba(201,168,76,0.45);transform:translateY(-2px);}
+.cta i{font-size:0.8rem;transition:transform 0.3s;}
+.cta:hover i{transform:translateX(5px);}
+
+/* corner deco */
+.corner-tl,.corner-br{position:fixed;pointer-events:none;z-index:10;}
+.corner-tl{top:32px;left:32px;}
+.corner-br{bottom:60px;right:36px;}
+.corner-tl span,.corner-br span{
+  display:block;font-size:0.42rem;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(201,168,76,0.35);font-weight:500;
+}
+.corner-tl span:first-child{margin-bottom:4px;}
+
+
+/* ════════════════════════════════════════════
+   OVERLAY
+════════════════════════════════════════════ */
+#menu{
+  position:fixed;inset:0;background:var(--panel);z-index:200;
+  transform:translateY(100%);
+  transition:transform 0.85s cubic-bezier(0.77,0,0.175,1);
+  overflow-y:auto;overflow-x:hidden;
+}
+#menu.active{transform:translateY(0);}
+
+/* top gold hairline */
+#menu::before{
+  content:'';position:sticky;top:0;display:block;
+  height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  z-index:201;
+}
+
+.ov-inner{max-width:1080px;margin:0 auto;padding:80px 40px 140px;}
+
+/* close */
+.close-btn{
+  position:fixed;top:32px;right:40px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  font-size:0.5rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--muted);z-index:210;transition:color 0.3s;
+}
+.close-btn:hover{color:var(--gold);}
+
+/* overlay hero line */
+.ov-hero{margin-bottom:70px;}
+.ov-hero .ov-tag{font-size:0.5rem;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:18px;font-weight:500;}
+.ov-hero h2{
+  font-family:var(--display);
+  font-size:clamp(2.5rem,7vw,6rem);
+  line-height:0.9;letter-spacing:-0.01em;
+  text-transform:uppercase;color:var(--white);
+}
+
+/* divider */
+.gold-line{height:1px;background:var(--gold-line);margin:40px 0;}
+
+/* watchlist */
+.watchlist{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;}
+.wchip{
+  display:flex;align-items:center;gap:9px;
+  border:1px solid var(--gold-line);
+  padding:9px 18px;
+  font-size:0.47rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);
+  background:var(--gold-dim);
+  transition:border-color 0.3s,color 0.3s;
+}
+.wchip:hover{border-color:var(--gold);color:var(--gold);}
+.wdot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);animation:ldot 2s infinite;}
+
+/* section header */
+.sec-head{
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--gold-line);padding-bottom:14px;margin-bottom:28px;
+}
+.sec-head .sl{font-size:0.47rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);}
+.sec-head .sr{font-size:0.44rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+
+/* chart grid */
+.chart-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:10px;margin-bottom:72px;
+}
+.c-item{
+  aspect-ratio:9/16;background:#050505;
+  border:1px solid rgba(201,168,76,0.08);
+  overflow:hidden;cursor:pointer;position:relative;
+}
+.c-item img{
+  width:100%;height:100%;object-fit:cover;
+  opacity:0.3;filter:grayscale(80%);
+  transition:opacity 0.6s,filter 0.6s,transform 0.7s;
+}
+.c-item:hover img{opacity:0.85;filter:grayscale(0%);transform:scale(1.06);}
+.c-item::after{
+  content:attr(data-n);position:absolute;bottom:10px;left:12px;
+  font-size:0.43rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;
+  opacity:0;transition:opacity 0.3s;
+}
+.c-item:hover::after{opacity:1;}
+
+/* ── PRICING ── */
+.pricing{
+  position:relative;
+  border:1px solid var(--gold-line);
+  padding:64px 48px;
+  text-align:center;
+  background:var(--surface);
+  overflow:hidden;
+}
+/* corner marks */
+.pricing::before,.pricing::after{
+  content:'';position:absolute;
+  width:28px;height:28px;
+}
+.pricing::before{top:0;left:0;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
+.pricing::after{bottom:0;right:0;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+
+.early-badge{
+  display:inline-block;
+  background:var(--gold);color:#000;
+  font-family:var(--display);font-size:0.9rem;letter-spacing:4px;
+  padding:6px 22px;margin-bottom:24px;
+  text-transform:uppercase;
+}
+.slots-line{
+  font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;
+  color:rgba(240,240,240,0.4);margin-bottom:32px;
+}
+.slots-line strong{color:var(--gold);}
+
+.p-from{
+  font-size:0.55rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:6px;font-weight:300;
+}
+.p-old{
+  font-family:var(--display);font-size:2.4rem;letter-spacing:2px;
+  color:rgba(240,240,240,0.2);text-decoration:line-through;
+  display:block;margin-bottom:0;
+}
+.p-arrow{
+  font-size:1.2rem;color:var(--gold);display:block;
+  margin:6px 0;letter-spacing:0;
+}
+.p-new{
+  font-family:var(--display);
+  font-size:clamp(4rem,12vw,7rem);
+  letter-spacing:-2px;color:var(--white);
+  line-height:1;display:block;margin-bottom:8px;
+}
+.p-note{
+  font-size:0.45rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:44px;font-weight:300;
+}
+
+.secure-btn{
+  display:inline-flex;align-items:center;gap:14px;
+  background:var(--gold);color:#000;border:none;
+  font-family:var(--display);font-size:1.15rem;letter-spacing:4px;
+  padding:18px 56px;cursor:pointer;text-transform:uppercase;
+  transition:background 0.3s,box-shadow 0.3s,transform 0.2s;
+  box-shadow:0 6px 40px rgba(201,168,76,0.25);
+}
+.secure-btn:hover{background:#e0b84f;box-shadow:0 10px 60px rgba(201,168,76,0.5);transform:translateY(-2px);}
+
+/* payment area */
+.pay-area{
+  display:none;margin-top:48px;padding-top:44px;
+  border-top:1px solid var(--gold-line);
+  animation:fadeUp 0.5s ease forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.pay-lbl{font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-weight:500;}
+.wallet{
+  display:inline-block;font-family:'Courier New',monospace;
+  font-size:0.72rem;background:#050505;
+  border:1px solid var(--gold-line);
+  padding:20px 28px;word-break:break-all;
+  max-width:560px;cursor:pointer;
+  color:var(--white);transition:border-color 0.3s;margin-bottom:32px;
+}
+.wallet:hover{border-color:var(--gold);}
+.pay-steps{list-style:none;font-size:0.47rem;letter-spacing:2px;color:var(--muted);line-height:3;}
+.pay-steps li{display:flex;align-items:center;justify-content:center;gap:12px;}
+.sn{
+  width:20px;height:20px;border-radius:50%;
+  border:1px solid var(--gold-line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.42rem;color:var(--gold);flex-shrink:0;
+}
+.pay-steps a{color:var(--gold);text-decoration:none;}
+.pay-steps a:hover{text-decoration:underline;}
+
+
+/* ════════════════════════════════════════════
+   IMAGE MODAL
+════════════════════════════════════════════ */
+#imgModal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.96);
+  z-index:9000;display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(20px);
+}
+#imgModal.open{display:flex;}
+#imgModal img{max-width:88%;max-height:88vh;border:1px solid var(--gold-line);}
+.modal-x{
+  position:absolute;top:28px;right:36px;font-size:1.1rem;
+  cursor:pointer;color:var(--muted);transition:color 0.3s;
+}
+.modal-x:hover{color:var(--gold);}
+
+
+/* ════════════════════════════════════════════
+   TICKER
+════════════════════════════════════════════ */
+.ticker{
+  position:fixed;bottom:0;left:0;right:0;height:42px;
+  background:rgba(0,0,0,0.92);border-top:1px solid var(--gold-line);
+  backdrop-filter:blur(12px);z-index:50;overflow:hidden;
+  display:flex;align-items:center;
+}
+.t-track{display:flex;animation:tick 55s linear infinite;white-space:nowrap;}
+.t-seg{display:flex;gap:64px;padding-right:64px;}
+.t-item{display:flex;align-items:center;gap:10px;font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;}
+.t-item .tl{color:var(--muted);}
+.t-item .tv{color:var(--gold);}
+.t-item .ts{color:var(--dimmed);font-size:0.6rem;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════ */
+@media(max-width:640px){
+  .ov-inner{padding:70px 20px 120px;}
+  .pricing{padding:44px 22px;}
+  .corner-tl,.corner-br{display:none;}
+}
+</style>
 </head>
 <body>
 
-    <div class="ambient-bg"></div>
+<!-- ════════ INTRO ════════ -->
+<div id="intro">
+  <div class="intro-content">
 
-    <audio id="bgMusic" loop><source src="theme.mp3" type="audio/mpeg"></audio>
+    <!-- Globe SVG (latitude/longitude lines pulsing in gold behind the text) -->
+    <div class="globe-wrap" style="position:absolute;">
+      <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Clip to circle -->
+          <clipPath id="globeClip">
+            <circle cx="260" cy="260" r="220"/>
+          </clipPath>
+        </defs>
 
-    <div class="main-face">
-        <div class="reveal-box"><div class="reveal-item top-label">73nq x huzzino</div></div>
-        <div class="reveal-box"><h1 class="reveal-item">relentless pursuit.</h1></div>
-        <div class="reveal-box"><h2 class="reveal-item">Mastering Market Architecture</h2></div>
-        
-        <div class="reveal-box">
-            <div class="reveal-item nav-links">
-                <a href="https://discord.gg/ZNVeRGHFr" target="_blank"><i class="fa-brands fa-discord"></i></a>
-                <a href="https://www.instagram.com/1heeeb777" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@73nqqq" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-            </div>
-        </div>
+        <!-- Glow halo -->
+        <circle cx="260" cy="260" r="240" fill="url(#gGlow)"/>
+        <!-- Outer ring -->
+        <circle cx="260" cy="260" r="220" fill="none" stroke="#C9A84C" stroke-width="0.7" opacity="0.35"/>
 
-        <div class="reveal-box">
-            <button class="reveal-item cta-trigger" onclick="toggleMenu()">Explore Model</button>
-        </div>
+        <!-- Latitude lines (horizontal ellipses) — static -->
+        <g clip-path="url(#globeClip)" stroke="#C9A84C" stroke-width="0.6" fill="none" opacity="0.22">
+          <ellipse cx="260" cy="260" rx="220" ry="30"/>
+          <ellipse cx="260" cy="260" rx="220" ry="80"/>
+          <ellipse cx="260" cy="260" rx="220" ry="140"/>
+          <ellipse cx="260" cy="260" rx="220" ry="185"/>
+          <line x1="40" y1="260" x2="480" y2="260"/>
+          <ellipse cx="260" cy="150" rx="165" ry="18"/>
+          <ellipse cx="260" cy="370" rx="165" ry="18"/>
+        </g>
+
+        <!-- Longitude lines (vertical ellipses — spinning) -->
+        <g clip-path="url(#globeClip)" stroke="#C9A84C" stroke-width="0.6" fill="none" opacity="0.22">
+          <animateTransform attributeName="transform" type="rotate"
+            from="0 260 260" to="360 260 260" dur="18s" repeatCount="indefinite"/>
+          <ellipse cx="260" cy="260" rx="30" ry="220"/>
+          <ellipse cx="260" cy="260" rx="80" ry="220"/>
+          <ellipse cx="260" cy="260" rx="140" ry="220"/>
+          <ellipse cx="260" cy="260" rx="185" ry="220"/>
+          <line x1="260" y1="40" x2="260" y2="480"/>
+        </g>
+
+        <!-- Subtle inner glow circle -->
+        <circle cx="260" cy="260" r="220" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.12"/>
+      </svg>
     </div>
 
-    <div class="overlay" id="menu">
-        <div class="close-overlay" onclick="toggleMenu()">[ Return ]</div>
+    <!-- NASDAQ wordmark on top -->
+    <div class="nasdaq-wordmark">NASDAQ</div>
 
-        <div class="partner-group" style="margin-bottom: 80px;">
-            <div class="group-header">
-                <span>Active Watchlist</span>
-                <span style="color:var(--accent);">● MONITORING</span>
-            </div>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; opacity: 0.5;">
-                <div style="border: 1px solid rgba(255,255,255,0.1); padding: 12px 25px; font-size: 0.5rem; letter-spacing: 3px;">NQ1! / PREMIUM ARRAY</div>
-                <div style="border: 1px solid rgba(255,255,255,0.1); padding: 12px 25px; font-size: 0.5rem; letter-spacing: 3px;">XAUUSD / HTF LIQUIDITY</div>
-                <div style="border: 1px solid rgba(255,255,255,0.1); padding: 12px 25px; font-size: 0.5rem; letter-spacing: 3px;">BTC / MMXM COMPLETION</div>
-            </div>
-        </div>
-        
-        <div class="partner-group">
-            <div class="group-header"><span>Desk 01 / 73nq</span><span>Algorithmic STDV</span></div>
-            <div class="grid">
-                <div class="grid-item" onclick="openFull('./image_1.png')"><img src="./image_1.png"></div>
-                <div class="grid-item" onclick="openFull('./image_2.png')"><img src="./image_2.png"></div>
-                <div class="grid-item" onclick="openFull('./image_3.png')"><img src="./image_3.png"></div>
-                <div class="grid-item" onclick="openFull('./image_4.png')"><img src="./image_4.png"></div>
-                <div class="grid-item" onclick="openFull('./image_5.png')"><img src="./image_5.png"></div>
-            </div>
-        </div>
+  </div>
+</div>
 
-        <div class="partner-group">
-            <div class="group-header"><span>Desk 02 / Huzzino</span><span>Institutional Flow</span></div>
-            <div class="grid">
-                <div class="grid-item" onclick="openFull('./h_image_1.png')"><img src="./h_image_1.png"></div>
-                <div class="grid-item" onclick="openFull('./h_image_2.png')"><img src="./h_image_2.png"></div>
-                <div class="grid-item" onclick="openFull('./h_image_3.png')"><img src="./h_image_3.png"></div>
-                <div class="grid-item" onclick="openFull('./h_image_4.png')"><img src="./h_image_4.png"></div>
-                <div class="grid-item" onclick="openFull('./h_image_5.png')"><img src="./h_image_5.png"></div>
-            </div>
-        </div>
 
-        <div class="price-container" style="padding-bottom: 120px;">
-            <div style="font-size: 0.55rem; letter-spacing: 5px; color: var(--accent); margin-bottom: 20px; font-weight: 700;">
-                GENESIS PROTOCOL // 08/15 SLOTS REMAINING
-            </div>
-            <span class="old-price">$249.00</span>
-            <div class="new-price">$89.99</div>
-            <div style="font-size: 0.5rem; letter-spacing: 6px; opacity: 0.3; margin-bottom: 50px;">FOUNDING MEMBER ACCESS</div>
-            
-            <button id="payBtn" class="cta-trigger" style="background: #fff; color: #000; padding: 22px 70px; letter-spacing: 10px;" onclick="showPayment()">Secure Position</button>
+<!-- ════════ BACKGROUNDS ════════ -->
+<div class="bg-image"></div>
+<div class="light-leak"></div>
+<div class="noise"></div>
 
-            <div id="paymentArea" class="payment-reveal">
-                <p style="font-size: 0.6rem; letter-spacing: 3px; color: var(--accent); margin-bottom: 25px;">DIRECT USDT SETTLEMENT (TRC20)</p>
-                <code style="display: inline-block; font-size: 0.8rem; background: #111; padding: 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); word-break: break-all; max-width: 90%;">
-                    YOUR_USDT_TRC20_ADDRESS_HERE
-                </code>
-                <p style="font-size: 0.5rem; opacity: 0.4; margin-top: 35px; line-height: 2;">
-                    1. Send $89.99 USDT (TRC20 Network)<br>
-                    2. Send screenshot to <a href="https://t.me/YOUR_TELEGRAM" style="color: var(--accent); text-decoration: none;">@YOUR_TELEGRAM</a><br>
-                    3. Receive protocol credentials instantly.
-                </p>
-            </div>
-        </div>
+
+<!-- ════════ CORNER LABELS ════════ -->
+<div class="corner-tl">
+  <span>73NQ</span>
+  <span>Market Architecture</span>
+</div>
+<div class="corner-br">
+  <span>Est. Discipline</span>
+</div>
+
+
+<!-- ════════ HERO ════════ -->
+<main id="hero">
+  <div class="hero-tag">73NQ · Mentorship</div>
+
+  <h1 class="hero-h1">
+    Relentless<br>
+    <span class="line-gold">Pursuit.</span>
+  </h1>
+
+  <p class="hero-sub">Mastering Market Architecture<br>NQ1! · XAUUSD · BTC</p>
+
+  <div class="live-bar">
+    <span class="live-dot"></span>
+    <span class="live-text"><span class="live-pairs">NAS100 · GOLD · BTC</span> &nbsp;— Actively Monitored</span>
+  </div>
+
+  <nav class="socials">
+    <a href="https://discord.gg/ZNVeRGHFr" target="_blank" title="Discord"><i class="fa-brands fa-discord"></i></a>
+    <a href="https://www.instagram.com/1heeeb777" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@73nqqq" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+  </nav>
+
+  <button class="cta" onclick="openMenu()">
+    Explore Mentorship &nbsp;<i class="fa-solid fa-arrow-right"></i>
+  </button>
+</main>
+
+
+<!-- ════════ OVERLAY ════════ -->
+<div id="menu">
+  <div class="close-btn" onclick="closeMenu()">
+    <i class="fa-solid fa-xmark"></i>&nbsp; Return
+  </div>
+
+  <div class="ov-inner">
+
+    <!-- Header -->
+    <div class="ov-hero">
+      <p class="ov-tag">73NQ · Desk — Market Architecture</p>
+      <h2>Trade like<br>an institution.</h2>
     </div>
 
-    <div id="imgModal" onclick="this.style.display='none'">
-        <img id="modalContent" src="">
+    <div class="gold-line"></div>
+
+    <!-- Watchlist -->
+    <div class="sec-head" style="margin-bottom:18px;">
+      <span class="sl">Active Watchlist</span>
+      <span class="sr">● Live</span>
+    </div>
+    <div class="watchlist">
+      <div class="wchip"><span class="wdot"></span> NQ1! / Premium Array</div>
+      <div class="wchip"><span class="wdot"></span> XAUUSD / HTF Liquidity</div>
+      <div class="wchip"><span class="wdot"></span> BTC / MMXM Completion</div>
+      <div class="wchip"><span class="wdot"></span> DXY / Correlated Flow</div>
     </div>
 
-    <div class="footer-ticker">
-        <div class="ticker-text">
-            <span>73NQ x HUZZINO</span><span>NAS100: MONITORING</span><span>XAUUSD: MONITORING</span><span>SMC + STDV CONFLUENCE</span><span>STATUS: RELENTLESS</span>
-            <span>73NQ x HUZZINO</span><span>NAS100: MONITORING</span><span>XAUUSD: MONITORING</span><span>SMC + STDV CONFLUENCE</span><span>STATUS: RELENTLESS</span>
-        </div>
+    <div class="gold-line"></div>
+
+    <!-- Chart Grid -->
+    <div class="sec-head">
+      <span class="sl">73NQ Desk — Algorithmic STDV</span>
+      <span class="sr">Setups</span>
+    </div>
+    <div class="chart-grid">
+      <div class="c-item" data-n="Setup 01" onclick="openModal('./image_1.png')"><img src="./image_1.png" alt="Setup 1"></div>
+      <div class="c-item" data-n="Setup 02" onclick="openModal('./image_2.png')"><img src="./image_2.png" alt="Setup 2"></div>
+      <div class="c-item" data-n="Setup 03" onclick="openModal('./image_3.png')"><img src="./image_3.png" alt="Setup 3"></div>
+      <div class="c-item" data-n="Setup 04" onclick="openModal('./image_4.png')"><img src="./image_4.png" alt="Setup 4"></div>
+      <div class="c-item" data-n="Setup 05" onclick="openModal('./image_5.png')"><img src="./image_5.png" alt="Setup 5"></div>
     </div>
 
-    <script>
-        function toggleMenu() {
-            document.getElementById('menu').classList.toggle('active');
-            const audio = document.getElementById('bgMusic');
-            if(audio.paused) audio.play();
-        }
-        function showPayment() {
-            document.getElementById('paymentArea').style.display = 'block';
-            document.getElementById('payBtn').style.display = 'none';
-        }
-        function openFull(src) {
-            document.getElementById('modalContent').src = src;
-            document.getElementById('imgModal').style.display = 'flex';
-        }
-    </script>
+    <div class="gold-line"></div>
+
+    <!-- Pricing -->
+    <div class="pricing">
+      <div class="early-badge">Early Access</div>
+      <p class="slots-line">Only <strong>7 slots</strong> available at this price</p>
+
+      <p class="p-from">Regular price</p>
+      <span class="p-old">$249.00</span>
+      <span class="p-arrow">↓</span>
+      <span class="p-new">$89.99</span>
+      <p class="p-note">Founding Member · One-time Payment</p>
+
+      <button id="payBtn" class="secure-btn" onclick="showPayment()">
+        <i class="fa-solid fa-lock" style="font-size:0.7rem;"></i>
+        Secure Your Slot
+      </button>
+
+      <div id="payArea" class="pay-area">
+        <p class="pay-lbl">Direct USDT Settlement · TRC20 Network</p>
+        <div class="wallet" onclick="copyWallet(this)" title="Tap to copy">YOUR_USDT_TRC20_ADDRESS_HERE</div>
+        <ul class="pay-steps">
+          <li><span class="sn">1</span> Send exactly $89.99 USDT on TRC20 to the address above</li>
+          <li><span class="sn">2</span> Screenshot receipt → DM <a href="https://t.me/YOUR_TELEGRAM" target="_blank">@YOUR_TELEGRAM</a></li>
+          <li><span class="sn">3</span> Receive access credentials within 1 hour</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /ov-inner -->
+</div><!-- /menu -->
+
+
+<!-- ════════ IMAGE MODAL ════════ -->
+<div id="imgModal">
+  <i class="fa-solid fa-xmark modal-x" onclick="closeModal()"></i>
+  <img id="modalImg" src="" alt="Chart">
+</div>
+
+<!-- ════════ AUDIO ════════ -->
+<audio id="bgMusic" loop><source src="theme.mp3" type="audio/mpeg"></audio>
+
+<!-- ════════ TICKER ════════ -->
+<footer class="ticker">
+  <div class="t-track">
+    <div class="t-seg">
+      <div class="t-item"><span class="tl">73NQ</span><span class="ts">/</span><span class="tv">ACTIVE</span></div>
+      <div class="t-item"><span class="tl">NAS100</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">XAUUSD</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">BTC</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">SMC · STDV</span><span class="ts">/</span><span class="tv">CONFLUENCE</span></div>
+      <div class="t-item"><span class="tl">EARLY ACCESS</span><span class="ts">/</span><span class="tv">7 SLOTS</span></div>
+    </div>
+    <div class="t-seg">
+      <div class="t-item"><span class="tl">73NQ</span><span class="ts">/</span><span class="tv">ACTIVE</span></div>
+      <div class="t-item"><span class="tl">NAS100</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">XAUUSD</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">BTC</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">SMC · STDV</span><span class="ts">/</span><span class="tv">CONFLUENCE</span></div>
+      <div class="t-item"><span class="tl">EARLY ACCESS</span><span class="ts">/</span><span class="tv">7 SLOTS</span></div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// ── INTRO ─────────────────────────────────────────────────
+window.addEventListener('load', function(){
+  var intro = document.getElementById('intro');
+  var hero  = document.getElementById('hero');
+
+  // Exit after ~2.6s (logo in at 0.9s, line sweep at 1.5s → reads comfortably)
+  setTimeout(function(){
+    intro.classList.add('gone');
+    setTimeout(function(){
+      intro.style.display = 'none';
+      document.body.style.overflow = '';
+      hero.classList.add('visible');
+      var a = document.getElementById('bgMusic');
+      a.volume = 0.25;
+      a.play().catch(function(){});
+    }, 820);
+  }, 2600);
+});
+
+// ── MENU ──────────────────────────────────────────────────
+function openMenu(){document.getElementById('menu').classList.add('active');}
+function closeMenu(){document.getElementById('menu').classList.remove('active');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+
+// ── PAYMENT ───────────────────────────────────────────────
+function showPayment(){
+  document.getElementById('payArea').style.display='block';
+  document.getElementById('payBtn').style.display='none';
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal(src){
+  document.getElementById('modalImg').src=src;
+  document.getElementById('imgModal').classList.add('open');
+}
+function closeModal(){document.getElementById('imgModal').classList.remove('open');}
+document.getElementById('imgModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// ── COPY WALLET ───────────────────────────────────────────
+function copyWallet(el){
+  navigator.clipboard.writeText(el.textContent.trim()).then(function(){
+    var o=el.textContent;
+    el.textContent='Copied ✓';
+    setTimeout(function(){el.textContent=o;},1800);
+  }).catch(function(){});
+}
+</script>
 </body>
 </html>
