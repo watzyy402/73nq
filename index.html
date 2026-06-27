@@ -12,114 +12,118 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --black:#000;
-  --panel:#080808;
-  --surface:#101010;
-  --gold:#C9A84C;
-  --gold-dim:rgba(201,168,76,0.18);
-  --gold-line:rgba(201,168,76,0.25);
-  --white:#F0F0F0;
-  --muted:rgba(240,240,240,0.35);
-  --dimmed:rgba(240,240,240,0.08);
+  --panel:#0a0a0a;
+  --surface:#111;
+  --accent:#fff;
+  --accent-dim:rgba(255,255,255,0.08);
+  --accent-line:rgba(255,255,255,0.14);
+  --white:#f5f5f5;
+  --muted:rgba(255,255,255,0.32);
+  --dimmed:rgba(255,255,255,0.07);
+  --bull:#22c55e;
+  --bear:#ef4444;
   --display:'Bebas Neue',sans-serif;
   --body:'Inter',sans-serif;
 }
-html,body{width:100%;height:100%;background:var(--black);color:var(--white);font-family:var(--body);overflow:hidden;}
+html,body{width:100%;height:100%;background:#000;color:var(--white);font-family:var(--body);overflow:hidden;}
 
-/* ════════════════════════════════════════════
-   INTRO
-════════════════════════════════════════════ */
+/* ══ INTRO ══════════════════════════════════ */
 #intro{
   position:fixed;inset:0;background:#000;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-#intro.gone{animation:introOut 0.8s cubic-bezier(0.77,0,0.175,1) forwards;}
+#intro.gone{animation:introOut 0.9s cubic-bezier(0.77,0,0.175,1) forwards;}
 @keyframes introOut{to{transform:translateY(-100%);}}
 
-/* Globe SVG behind the logo */
 .globe-wrap{
   position:absolute;
-  width:min(520px,90vw);
-  height:min(520px,90vw);
-  opacity:0;
-  animation:globeIn 1s ease 0.2s forwards;
+  width:min(540px,88vw);height:min(540px,88vw);
+  opacity:0;animation:gIn 1s ease 0.2s forwards;
 }
-@keyframes globeIn{to{opacity:1;}}
-
+@keyframes gIn{to{opacity:1;}}
 .globe-wrap svg{width:100%;height:100%;}
 
-/* slow spin */
-.globe-spin{animation:globeSpin 18s linear infinite;}
-@keyframes globeSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-
-/* NASDAQ wordmark over globe */
 .nasdaq-wordmark{
   position:relative;z-index:2;
   font-family:var(--display);
-  font-size:clamp(4rem,18vw,10rem);
-  letter-spacing:0.05em;
-  color:var(--white);
-  opacity:0;
-  animation:nmIn 0.7s ease 0.9s forwards;
+  font-size:clamp(4.5rem,19vw,11rem);
+  letter-spacing:0.06em;color:#fff;
+  opacity:0;animation:nmIn 0.7s ease 0.95s forwards;
   user-select:none;
-  text-shadow:0 0 80px rgba(201,168,76,0.25);
+  text-shadow:0 0 80px rgba(255,255,255,0.15);
 }
-@keyframes nmIn{from{opacity:0;transform:scale(0.96);}to{opacity:1;transform:scale(1);}}
-
-/* gold underline sweep */
+@keyframes nmIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
 .nasdaq-wordmark::after{
-  content:'';display:block;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  content:'';display:block;height:1.5px;
+  background:linear-gradient(90deg,transparent,#fff,transparent);
   width:0%;margin:0 auto;
-  animation:lineSweep 0.7s ease 1.5s forwards;
+  animation:lSweep 0.6s ease 1.55s forwards;
 }
-@keyframes lineSweep{to{width:100%;}}
+@keyframes lSweep{to{width:100%;}}
+.intro-content{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
 
-/* whole intro content stack */
-.intro-content{
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:center;position:relative;
+/* ══ VIDEO BACKGROUND ═══════════════════════ */
+.bg-video-wrap{position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
+#bgVideo{
+  position:absolute;
+  top:50%;left:50%;
+  min-width:100%;min-height:100%;
+  width:auto;height:auto;
+  transform:translate(-50%,-50%);
+  object-fit:cover;
+  filter:brightness(0.28) saturate(0.6) contrast(1.1);
+}
+/* Fallback dark layer shown while video loads */
+.bg-fallback{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 80%, #0d0d0d 0%, #000 100%);
+  z-index:0;
 }
 
-/* fade the intro out triggers in JS */
-
-
-/* ════════════════════════════════════════════
-   BACKGROUND
-════════════════════════════════════════════ */
-.bg-image{
-  position:fixed;inset:0;
-  background:url('./rolex.png') center/cover no-repeat;
-  filter:grayscale(100%) brightness(0.12) contrast(1.3);
-  z-index:1;pointer-events:none;
-  animation:slowPan 40s ease-in-out infinite alternate;
-}
-@keyframes slowPan{from{transform:scale(1);}to{transform:scale(1.1);}}
-
-/* diagonal gold light leak — the signature atmospheric element */
-.light-leak{
+.bg-overlay{
   position:fixed;inset:0;z-index:2;pointer-events:none;
   background:
-    radial-gradient(ellipse 55% 40% at 15% 80%, rgba(201,168,76,0.07) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 55% at 90% 10%, rgba(201,168,76,0.05) 0%, transparent 60%);
+    linear-gradient(to bottom,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.35) 45%,rgba(0,0,0,0.82) 100%),
+    radial-gradient(ellipse 70% 50% at 50% 100%,rgba(0,0,0,0.6) 0%,transparent 70%);
 }
-
-/* noise texture */
 .noise{
-  position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:160px;
+  position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0.02;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
 }
 
+/* ══ CHART CANVAS BACKGROUND ════════════════ */
+#chartCanvas{
+  position:fixed;inset:0;z-index:2;
+  width:100%;height:100%;
+  pointer-events:none;
+  opacity:0.38;
+}
 
-/* ════════════════════════════════════════════
-   HERO
-════════════════════════════════════════════ */
+/* ══ PRICE WATERMARK ════════════════════════ */
+.price-watermark{
+  position:fixed;bottom:72px;right:40px;z-index:9;
+  text-align:right;pointer-events:none;
+}
+.pw-label{font-size:0.44rem;letter-spacing:6px;color:rgba(255,255,255,0.22);text-transform:uppercase;margin-bottom:3px;font-family:var(--display);}
+.pw-price{
+  font-family:var(--display);
+  font-size:clamp(2rem,5vw,3.4rem);
+  letter-spacing:2px;
+  color:rgba(255,255,255,0.1);
+  line-height:1;
+}
+.pw-change{font-size:0.48rem;letter-spacing:4px;color:rgba(80,220,130,0.3);font-family:var(--display);margin-top:4px;}
+
+/* ══ CORNERS ════════════════════════════════ */
+.corner-tl{position:fixed;top:30px;left:30px;z-index:10;pointer-events:none;}
+.corner-tl span{display:block;font-size:0.42rem;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.22);}
+.corner-tl span:first-child{margin-bottom:3px;}
+
+/* ══ HERO ═══════════════════════════════════ */
 #hero{
-  position:relative;z-index:10;
-  width:100%;height:100vh;
-  display:flex;flex-direction:column;
-  justify-content:center;
+  position:relative;z-index:10;width:100%;height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
   padding:0 clamp(28px,7vw,100px) 60px;
   opacity:0;
 }
@@ -127,83 +131,49 @@ html,body{width:100%;height:100%;background:var(--black);color:var(--white);font
 @keyframes heroIn{to{opacity:1;}}
 
 .hero-tag{
-  font-size:0.6rem;letter-spacing:10px;text-transform:uppercase;
-  color:var(--gold);font-weight:500;margin-bottom:20px;
+  font-size:0.55rem;letter-spacing:10px;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);font-weight:500;margin-bottom:18px;
   display:flex;align-items:center;gap:14px;
 }
-.hero-tag::before{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:0.5;}
+.hero-tag::before{content:'';display:block;width:28px;height:1px;background:rgba(255,255,255,0.3);}
 
 .hero-h1{
   font-family:var(--display);
   font-size:clamp(5rem,16vw,13rem);
-  line-height:0.88;
-  letter-spacing:-0.01em;
-  color:var(--white);
-  margin-bottom:0;
-  text-transform:uppercase;
+  line-height:0.88;letter-spacing:-0.01em;
+  color:#fff;text-transform:uppercase;
 }
-.hero-h1 .line-gold{color:var(--gold);}
+.hero-h1 .line-dim{color:rgba(255,255,255,0.28);}
 
 .hero-sub{
-  font-size:0.7rem;letter-spacing:5px;text-transform:uppercase;
+  font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;
   color:var(--muted);font-weight:300;
-  margin-top:28px;margin-bottom:40px;
-  max-width:380px;line-height:2;
+  margin-top:26px;margin-bottom:36px;line-height:2.4;
 }
 
-/* live bar */
-.live-bar{
-  display:inline-flex;align-items:center;gap:12px;
-  margin-bottom:44px;
-}
-.live-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--gold);box-shadow:0 0 10px var(--gold);
-  animation:ldot 2.2s ease-in-out infinite;
-}
-@keyframes ldot{0%,100%{opacity:1;}50%{opacity:0.25;}}
-.live-text{
-  font-size:0.5rem;letter-spacing:5px;text-transform:uppercase;
-  color:var(--muted);font-weight:500;
-}
-.live-pairs{color:var(--gold);}
+.live-bar{display:inline-flex;align-items:center;gap:12px;margin-bottom:40px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;animation:ldot 2.2s ease-in-out infinite;}
+@keyframes ldot{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.live-text{font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);}
+.live-pairs{color:rgba(255,255,255,0.7);}
 
-/* socials */
-.socials{display:flex;gap:26px;margin-bottom:48px;}
-.socials a{
-  color:var(--muted);font-size:1.05rem;text-decoration:none;
-  transition:color 0.35s,transform 0.35s;
-}
-.socials a:hover{color:var(--gold);transform:translateY(-4px);}
+.socials{display:flex;gap:26px;margin-bottom:44px;}
+.socials a{color:var(--muted);font-size:1.05rem;text-decoration:none;transition:color 0.3s,transform 0.3s;}
+.socials a:hover{color:#fff;transform:translateY(-4px);}
 
-/* CTA */
 .cta{
   display:inline-flex;align-items:center;gap:16px;
-  background:var(--gold);color:#000;border:none;
+  background:#fff;color:#000;border:none;
   font-family:var(--display);font-size:1.2rem;letter-spacing:3px;
-  padding:16px 48px;cursor:pointer;
+  padding:16px 50px;cursor:pointer;text-transform:uppercase;
   transition:background 0.3s,box-shadow 0.3s,transform 0.2s;
-  box-shadow:0 8px 40px rgba(201,168,76,0.2);
-  text-transform:uppercase;
+  box-shadow:0 8px 40px rgba(255,255,255,0.12);
 }
-.cta:hover{background:#e0b84f;box-shadow:0 12px 60px rgba(201,168,76,0.45);transform:translateY(-2px);}
+.cta:hover{background:#e0e0e0;box-shadow:0 12px 60px rgba(255,255,255,0.22);transform:translateY(-2px);}
 .cta i{font-size:0.8rem;transition:transform 0.3s;}
 .cta:hover i{transform:translateX(5px);}
 
-/* corner deco */
-.corner-tl,.corner-br{position:fixed;pointer-events:none;z-index:10;}
-.corner-tl{top:32px;left:32px;}
-.corner-br{bottom:60px;right:36px;}
-.corner-tl span,.corner-br span{
-  display:block;font-size:0.42rem;letter-spacing:4px;text-transform:uppercase;
-  color:rgba(201,168,76,0.35);font-weight:500;
-}
-.corner-tl span:first-child{margin-bottom:4px;}
-
-
-/* ════════════════════════════════════════════
-   OVERLAY
-════════════════════════════════════════════ */
+/* ══ OVERLAY ════════════════════════════════ */
 #menu{
   position:fixed;inset:0;background:var(--panel);z-index:200;
   transform:translateY(100%);
@@ -211,358 +181,353 @@ html,body{width:100%;height:100%;background:var(--black);color:var(--white);font
   overflow-y:auto;overflow-x:hidden;
 }
 #menu.active{transform:translateY(0);}
-
-/* top gold hairline */
 #menu::before{
   content:'';position:sticky;top:0;display:block;
-  height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
   z-index:201;
 }
+.ov-inner{max-width:1100px;margin:0 auto;padding:80px 40px 160px;}
 
-.ov-inner{max-width:1080px;margin:0 auto;padding:80px 40px 140px;}
-
-/* close */
 .close-btn{
-  position:fixed;top:32px;right:40px;
+  position:fixed;top:30px;right:38px;
   display:flex;align-items:center;gap:10px;cursor:pointer;
-  font-size:0.5rem;letter-spacing:5px;text-transform:uppercase;
+  font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;
   color:var(--muted);z-index:210;transition:color 0.3s;
 }
-.close-btn:hover{color:var(--gold);}
+.close-btn:hover{color:#fff;}
 
-/* overlay hero line */
-.ov-hero{margin-bottom:70px;}
-.ov-hero .ov-tag{font-size:0.5rem;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:18px;font-weight:500;}
+.ov-hero{margin-bottom:60px;}
+.ov-hero .ov-tag{font-size:0.48rem;letter-spacing:7px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:16px;font-weight:500;}
 .ov-hero h2{
   font-family:var(--display);
   font-size:clamp(2.5rem,7vw,6rem);
   line-height:0.9;letter-spacing:-0.01em;
-  text-transform:uppercase;color:var(--white);
+  text-transform:uppercase;color:#fff;
 }
 
-/* divider */
-.gold-line{height:1px;background:var(--gold-line);margin:40px 0;}
+.white-line{height:1px;background:var(--accent-line);margin:44px 0;}
 
-/* watchlist */
+/* watchlist — only NQ1! and ES1! */
 .watchlist{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;}
 .wchip{
   display:flex;align-items:center;gap:9px;
-  border:1px solid var(--gold-line);
-  padding:9px 18px;
-  font-size:0.47rem;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);
-  background:var(--gold-dim);
+  border:1px solid var(--accent-line);
+  padding:10px 22px;
+  font-size:0.48rem;letter-spacing:4px;text-transform:uppercase;
+  color:var(--muted);background:var(--accent-dim);
   transition:border-color 0.3s,color 0.3s;
 }
-.wchip:hover{border-color:var(--gold);color:var(--gold);}
-.wdot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);animation:ldot 2s infinite;}
+.wchip:hover{border-color:rgba(255,255,255,0.5);color:#fff;}
+.wdot{width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:ldot 2s infinite;}
 
-/* section header */
 .sec-head{
   display:flex;justify-content:space-between;align-items:center;
-  border-bottom:1px solid var(--gold-line);padding-bottom:14px;margin-bottom:28px;
+  border-bottom:1px solid var(--accent-line);padding-bottom:14px;margin-bottom:28px;
 }
-.sec-head .sl{font-size:0.47rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);}
-.sec-head .sr{font-size:0.44rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+.sec-head .sl{font-size:0.46rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);}
+.sec-head .sr{font-size:0.44rem;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;}
 
 /* chart grid */
 .chart-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
   gap:10px;margin-bottom:72px;
 }
 .c-item{
-  aspect-ratio:9/16;background:#050505;
-  border:1px solid rgba(201,168,76,0.08);
+  aspect-ratio:9/16;background:#060606;
+  border:1px solid rgba(255,255,255,0.06);
   overflow:hidden;cursor:pointer;position:relative;
 }
 .c-item img{
   width:100%;height:100%;object-fit:cover;
-  opacity:0.3;filter:grayscale(80%);
+  opacity:0.28;filter:grayscale(80%);
   transition:opacity 0.6s,filter 0.6s,transform 0.7s;
 }
-.c-item:hover img{opacity:0.85;filter:grayscale(0%);transform:scale(1.06);}
+.c-item:hover img{opacity:0.88;filter:grayscale(0%);transform:scale(1.06);}
 .c-item::after{
   content:attr(data-n);position:absolute;bottom:10px;left:12px;
-  font-size:0.43rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;
+  font-size:0.42rem;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase;
   opacity:0;transition:opacity 0.3s;
 }
 .c-item:hover::after{opacity:1;}
 
-/* ── PRICING ── */
+/* ══ PRICING ════════════════════════════════ */
 .pricing{
-  position:relative;
-  border:1px solid var(--gold-line);
-  padding:64px 48px;
-  text-align:center;
-  background:var(--surface);
-  overflow:hidden;
+  position:relative;border:1px solid var(--accent-line);
+  padding:68px 48px;text-align:center;
+  background:var(--surface);overflow:hidden;
 }
-/* corner marks */
-.pricing::before,.pricing::after{
-  content:'';position:absolute;
-  width:28px;height:28px;
-}
-.pricing::before{top:0;left:0;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
-.pricing::after{bottom:0;right:0;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+.pricing::before,.pricing::after{content:'';position:absolute;width:28px;height:28px;}
+.pricing::before{top:0;left:0;border-top:1px solid rgba(255,255,255,0.4);border-left:1px solid rgba(255,255,255,0.4);}
+.pricing::after{bottom:0;right:0;border-bottom:1px solid rgba(255,255,255,0.4);border-right:1px solid rgba(255,255,255,0.4);}
 
 .early-badge{
-  display:inline-block;
-  background:var(--gold);color:#000;
+  display:inline-block;background:#fff;color:#000;
   font-family:var(--display);font-size:0.9rem;letter-spacing:4px;
-  padding:6px 22px;margin-bottom:24px;
-  text-transform:uppercase;
+  padding:6px 24px;margin-bottom:20px;text-transform:uppercase;
 }
-.slots-line{
-  font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;
-  color:rgba(240,240,240,0.4);margin-bottom:32px;
-}
-.slots-line strong{color:var(--gold);}
+.slots-line{font-size:0.46rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:36px;}
+.slots-line strong{color:#fff;}
 
-.p-from{
-  font-size:0.55rem;letter-spacing:5px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:6px;font-weight:300;
-}
-.p-old{
-  font-family:var(--display);font-size:2.4rem;letter-spacing:2px;
-  color:rgba(240,240,240,0.2);text-decoration:line-through;
-  display:block;margin-bottom:0;
-}
-.p-arrow{
-  font-size:1.2rem;color:var(--gold);display:block;
-  margin:6px 0;letter-spacing:0;
-}
-.p-new{
+.price-anim-wrap{margin-bottom:10px;}
+.p-from{font-size:0.5rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:300;}
+
+/* animated price counter */
+.p-display{
   font-family:var(--display);
-  font-size:clamp(4rem,12vw,7rem);
-  letter-spacing:-2px;color:var(--white);
-  line-height:1;display:block;margin-bottom:8px;
+  font-size:clamp(4.5rem,13vw,8rem);
+  letter-spacing:-2px;color:#fff;
+  line-height:1;display:block;
+  transition:color 0.4s;
 }
-.p-note{
-  font-size:0.45rem;letter-spacing:5px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:44px;font-weight:300;
+.p-display.striking{
+  text-decoration:line-through;
+  color:rgba(255,255,255,0.2);
 }
+.p-note{font-size:0.44rem;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:44px;font-weight:300;}
+
+/* discount badge that flies in */
+.discount-badge{
+  display:inline-block;
+  background:rgba(34,197,94,0.12);
+  border:1px solid rgba(34,197,94,0.35);
+  color:#22c55e;
+  font-size:0.46rem;letter-spacing:4px;text-transform:uppercase;
+  padding:6px 16px;margin-bottom:12px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity 0.4s,transform 0.4s;
+}
+.discount-badge.show{opacity:1;transform:translateY(0);}
 
 .secure-btn{
   display:inline-flex;align-items:center;gap:14px;
-  background:var(--gold);color:#000;border:none;
+  background:#fff;color:#000;border:none;
   font-family:var(--display);font-size:1.15rem;letter-spacing:4px;
   padding:18px 56px;cursor:pointer;text-transform:uppercase;
   transition:background 0.3s,box-shadow 0.3s,transform 0.2s;
-  box-shadow:0 6px 40px rgba(201,168,76,0.25);
+  box-shadow:0 6px 40px rgba(255,255,255,0.1);
 }
-.secure-btn:hover{background:#e0b84f;box-shadow:0 10px 60px rgba(201,168,76,0.5);transform:translateY(-2px);}
+.secure-btn:hover{background:#e0e0e0;box-shadow:0 10px 60px rgba(255,255,255,0.2);transform:translateY(-2px);}
 
-/* payment area */
 .pay-area{
   display:none;margin-top:48px;padding-top:44px;
-  border-top:1px solid var(--gold-line);
+  border-top:1px solid var(--accent-line);
   animation:fadeUp 0.5s ease forwards;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
-.pay-lbl{font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-weight:500;}
+.pay-lbl{font-size:0.46rem;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:18px;font-weight:500;}
 .wallet{
   display:inline-block;font-family:'Courier New',monospace;
-  font-size:0.72rem;background:#050505;
-  border:1px solid var(--gold-line);
+  font-size:0.72rem;background:#080808;
+  border:1px solid var(--accent-line);
   padding:20px 28px;word-break:break-all;
-  max-width:560px;cursor:pointer;
-  color:var(--white);transition:border-color 0.3s;margin-bottom:32px;
+  max-width:560px;cursor:pointer;color:#fff;
+  transition:border-color 0.3s;margin-bottom:32px;
 }
-.wallet:hover{border-color:var(--gold);}
-.pay-steps{list-style:none;font-size:0.47rem;letter-spacing:2px;color:var(--muted);line-height:3;}
+.wallet:hover{border-color:rgba(255,255,255,0.45);}
+.pay-steps{list-style:none;font-size:0.46rem;letter-spacing:2px;color:var(--muted);line-height:3.2;}
 .pay-steps li{display:flex;align-items:center;justify-content:center;gap:12px;}
-.sn{
-  width:20px;height:20px;border-radius:50%;
-  border:1px solid var(--gold-line);
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.42rem;color:var(--gold);flex-shrink:0;
-}
-.pay-steps a{color:var(--gold);text-decoration:none;}
+.sn{width:20px;height:20px;border-radius:50%;border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:0.42rem;color:rgba(255,255,255,0.5);flex-shrink:0;}
+.pay-steps a{color:#fff;text-decoration:none;}
 .pay-steps a:hover{text-decoration:underline;}
 
+/* ══ CONTACT ════════════════════════════════ */
+.contact-block{
+  border:1px solid var(--accent-line);
+  background:var(--surface);
+  position:relative;overflow:hidden;
+}
+.contact-block::before,.contact-block::after{content:'';position:absolute;width:28px;height:28px;}
+.contact-block::before{top:0;left:0;border-top:1px solid rgba(255,255,255,0.4);border-left:1px solid rgba(255,255,255,0.4);}
+.contact-block::after{bottom:0;right:0;border-bottom:1px solid rgba(255,255,255,0.4);border-right:1px solid rgba(255,255,255,0.4);}
+.contact-inner{padding:60px 48px;text-align:center;}
+.contact-inner .c-tag{font-size:0.46rem;letter-spacing:7px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:18px;font-weight:500;display:block;}
+.contact-inner h3{
+  font-family:var(--display);
+  font-size:clamp(2rem,6vw,4.5rem);
+  line-height:0.92;letter-spacing:-0.01em;
+  text-transform:uppercase;color:#fff;margin-bottom:14px;
+}
+.contact-inner .c-sub{font-size:0.48rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:48px;font-weight:300;line-height:2.6;}
 
-/* ════════════════════════════════════════════
-   IMAGE MODAL
-════════════════════════════════════════════ */
+.contact-cards{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.c-card{
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  border:1px solid var(--accent-line);
+  padding:40px 52px;min-width:220px;
+  background:rgba(255,255,255,0.02);
+  transition:border-color 0.35s,background 0.35s,transform 0.3s;
+  text-decoration:none;color:inherit;cursor:pointer;
+}
+.c-card:hover{border-color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.06);transform:translateY(-4px);}
+.c-card .c-icon{
+  width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--accent-line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;color:rgba(255,255,255,0.6);
+  transition:background 0.3s,border-color 0.3s,color 0.3s;
+}
+.c-card:hover .c-icon{background:#fff;color:#000;border-color:#fff;}
+.c-card .c-platform{font-size:0.43rem;letter-spacing:6px;text-transform:uppercase;color:var(--muted);font-weight:500;}
+.c-card .c-handle{font-family:var(--display);font-size:1.5rem;letter-spacing:2px;color:#fff;text-transform:uppercase;}
+.c-card .c-action{font-size:0.41rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:4px;}
+
+/* ══ IMAGE MODAL ════════════════════════════ */
 #imgModal{
-  position:fixed;inset:0;background:rgba(0,0,0,0.96);
+  position:fixed;inset:0;background:rgba(0,0,0,0.97);
   z-index:9000;display:none;align-items:center;justify-content:center;
-  backdrop-filter:blur(20px);
+  backdrop-filter:blur(24px);
 }
 #imgModal.open{display:flex;}
-#imgModal img{max-width:88%;max-height:88vh;border:1px solid var(--gold-line);}
-.modal-x{
-  position:absolute;top:28px;right:36px;font-size:1.1rem;
-  cursor:pointer;color:var(--muted);transition:color 0.3s;
-}
-.modal-x:hover{color:var(--gold);}
+#imgModal img{max-width:88%;max-height:88vh;border:1px solid var(--accent-line);}
+.modal-x{position:absolute;top:28px;right:36px;font-size:1.1rem;cursor:pointer;color:var(--muted);transition:color 0.3s;}
+.modal-x:hover{color:#fff;}
 
-
-/* ════════════════════════════════════════════
-   TICKER
-════════════════════════════════════════════ */
+/* ══ TICKER ════════════════════════════════ */
 .ticker{
-  position:fixed;bottom:0;left:0;right:0;height:42px;
-  background:rgba(0,0,0,0.92);border-top:1px solid var(--gold-line);
+  position:fixed;bottom:0;left:0;right:0;height:40px;
+  background:rgba(0,0,0,0.95);border-top:1px solid var(--accent-line);
   backdrop-filter:blur(12px);z-index:50;overflow:hidden;
   display:flex;align-items:center;
 }
-.t-track{display:flex;animation:tick 55s linear infinite;white-space:nowrap;}
-.t-seg{display:flex;gap:64px;padding-right:64px;}
-.t-item{display:flex;align-items:center;gap:10px;font-size:0.45rem;letter-spacing:3px;text-transform:uppercase;}
+.t-track{display:flex;animation:tick 60s linear infinite;white-space:nowrap;}
+.t-seg{display:flex;gap:56px;padding-right:56px;}
+.t-item{display:flex;align-items:center;gap:9px;font-size:0.44rem;letter-spacing:3px;text-transform:uppercase;}
 .t-item .tl{color:var(--muted);}
-.t-item .tv{color:var(--gold);}
-.t-item .ts{color:var(--dimmed);font-size:0.6rem;}
+.t-item .tv{color:rgba(255,255,255,0.65);}
+.t-item .tv.green{color:#22c55e;}
+.t-item .tv.red{color:#ef4444;}
+.t-item .ts{color:var(--dimmed);font-size:0.5rem;}
 @keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-
-/* ════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════ */
 @media(max-width:640px){
-  .ov-inner{padding:70px 20px 120px;}
-  .pricing{padding:44px 22px;}
-  .corner-tl,.corner-br{display:none;}
+  .ov-inner{padding:70px 20px 130px;}
+  .contact-inner{padding:44px 20px;}
+  .pricing{padding:44px 20px;}
+  .price-watermark,.corner-tl{display:none;}
+  .c-card{padding:32px 30px;}
 }
 </style>
 </head>
 <body>
 
-<!-- ════════ INTRO ════════ -->
+<!-- ══ INTRO ══ -->
 <div id="intro">
   <div class="intro-content">
-
-    <!-- Globe SVG (latitude/longitude lines pulsing in gold behind the text) -->
     <div class="globe-wrap" style="position:absolute;">
       <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
           </radialGradient>
-          <!-- Clip to circle -->
-          <clipPath id="globeClip">
-            <circle cx="260" cy="260" r="220"/>
-          </clipPath>
+          <clipPath id="globeClip"><circle cx="260" cy="260" r="220"/></clipPath>
         </defs>
-
-        <!-- Glow halo -->
-        <circle cx="260" cy="260" r="240" fill="url(#gGlow)"/>
-        <!-- Outer ring -->
-        <circle cx="260" cy="260" r="220" fill="none" stroke="#C9A84C" stroke-width="0.7" opacity="0.35"/>
-
-        <!-- Latitude lines (horizontal ellipses) — static -->
-        <g clip-path="url(#globeClip)" stroke="#C9A84C" stroke-width="0.6" fill="none" opacity="0.22">
-          <ellipse cx="260" cy="260" rx="220" ry="30"/>
+        <circle cx="260" cy="260" r="250" fill="url(#gGlow)"/>
+        <circle cx="260" cy="260" r="220" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+        <g clip-path="url(#globeClip)" stroke="rgba(255,255,255,0.15)" stroke-width="0.6" fill="none">
+          <ellipse cx="260" cy="260" rx="220" ry="28"/>
           <ellipse cx="260" cy="260" rx="220" ry="80"/>
           <ellipse cx="260" cy="260" rx="220" ry="140"/>
-          <ellipse cx="260" cy="260" rx="220" ry="185"/>
+          <ellipse cx="260" cy="260" rx="220" ry="190"/>
           <line x1="40" y1="260" x2="480" y2="260"/>
-          <ellipse cx="260" cy="150" rx="165" ry="18"/>
-          <ellipse cx="260" cy="370" rx="165" ry="18"/>
+          <ellipse cx="260" cy="145" rx="165" ry="17"/>
+          <ellipse cx="260" cy="375" rx="165" ry="17"/>
         </g>
-
-        <!-- Longitude lines (vertical ellipses — spinning) -->
-        <g clip-path="url(#globeClip)" stroke="#C9A84C" stroke-width="0.6" fill="none" opacity="0.22">
-          <animateTransform attributeName="transform" type="rotate"
-            from="0 260 260" to="360 260 260" dur="18s" repeatCount="indefinite"/>
-          <ellipse cx="260" cy="260" rx="30" ry="220"/>
+        <g clip-path="url(#globeClip)" stroke="rgba(255,255,255,0.15)" stroke-width="0.6" fill="none">
+          <animateTransform attributeName="transform" type="rotate" from="0 260 260" to="360 260 260" dur="20s" repeatCount="indefinite"/>
+          <ellipse cx="260" cy="260" rx="28" ry="220"/>
           <ellipse cx="260" cy="260" rx="80" ry="220"/>
           <ellipse cx="260" cy="260" rx="140" ry="220"/>
-          <ellipse cx="260" cy="260" rx="185" ry="220"/>
+          <ellipse cx="260" cy="260" rx="190" ry="220"/>
           <line x1="260" y1="40" x2="260" y2="480"/>
         </g>
-
-        <!-- Subtle inner glow circle -->
-        <circle cx="260" cy="260" r="220" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.12"/>
       </svg>
     </div>
-
-    <!-- NASDAQ wordmark on top -->
     <div class="nasdaq-wordmark">NASDAQ</div>
-
   </div>
 </div>
 
+<!-- ══ VIDEO BG ══ -->
+<div class="bg-video-wrap">
+  <div class="bg-fallback"></div>
+  <!--
+    Drop your Times Square / NASDAQ video as "nasdaq_bg.mp4" in the same folder.
+    It will autoplay muted and loop automatically.
+  -->
+  <video id="bgVideo" autoplay muted loop playsinline preload="auto">
+    <source src="./nasdaq_bg.mp4" type="video/mp4">
+  </video>
+</div>
 
-<!-- ════════ BACKGROUNDS ════════ -->
-<div class="bg-image"></div>
-<div class="light-leak"></div>
+<!-- Chart canvas sits on top of video, slightly transparent -->
+<canvas id="chartCanvas"></canvas>
+
+<div class="bg-overlay"></div>
 <div class="noise"></div>
 
+<!-- Price watermark -->
+<div class="price-watermark">
+  <div class="pw-label">NQ1! — Live</div>
+  <div class="pw-price">21,340<span style="font-size:0.55em;opacity:0.5;">.00</span></div>
+  <div class="pw-change">▲ +312.50 &nbsp;+1.48%</div>
+</div>
 
-<!-- ════════ CORNER LABELS ════════ -->
 <div class="corner-tl">
   <span>73NQ</span>
   <span>Market Architecture</span>
 </div>
-<div class="corner-br">
-  <span>Est. Discipline</span>
-</div>
 
-
-<!-- ════════ HERO ════════ -->
+<!-- ══ HERO ══ -->
 <main id="hero">
   <div class="hero-tag">73NQ · Mentorship</div>
-
   <h1 class="hero-h1">
     Relentless<br>
-    <span class="line-gold">Pursuit.</span>
+    <span class="line-dim">Pursuit.</span>
   </h1>
-
-  <p class="hero-sub">Mastering Market Architecture<br>NQ1! · XAUUSD · BTC</p>
-
+  <p class="hero-sub">Mastering Market Architecture<br>NQ1! · ES1!</p>
   <div class="live-bar">
     <span class="live-dot"></span>
-    <span class="live-text"><span class="live-pairs">NAS100 · GOLD · BTC</span> &nbsp;— Actively Monitored</span>
+    <span class="live-text"><span class="live-pairs">NQ1! · ES1!</span> &nbsp;— Actively Monitored</span>
   </div>
-
   <nav class="socials">
     <a href="https://discord.gg/ZNVeRGHFr" target="_blank" title="Discord"><i class="fa-brands fa-discord"></i></a>
     <a href="https://www.instagram.com/1heeeb777" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
     <a href="https://www.tiktok.com/@73nqqq" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
   </nav>
-
   <button class="cta" onclick="openMenu()">
     Explore Mentorship &nbsp;<i class="fa-solid fa-arrow-right"></i>
   </button>
 </main>
 
-
-<!-- ════════ OVERLAY ════════ -->
+<!-- ══ OVERLAY ══ -->
 <div id="menu">
-  <div class="close-btn" onclick="closeMenu()">
-    <i class="fa-solid fa-xmark"></i>&nbsp; Return
-  </div>
-
+  <div class="close-btn" onclick="closeMenu()"><i class="fa-solid fa-xmark"></i>&nbsp; Return</div>
   <div class="ov-inner">
 
-    <!-- Header -->
     <div class="ov-hero">
       <p class="ov-tag">73NQ · Desk — Market Architecture</p>
       <h2>Trade like<br>an institution.</h2>
     </div>
 
-    <div class="gold-line"></div>
+    <div class="white-line"></div>
 
-    <!-- Watchlist -->
+    <!-- Watchlist: NQ1! and ES1! only -->
     <div class="sec-head" style="margin-bottom:18px;">
       <span class="sl">Active Watchlist</span>
-      <span class="sr">● Live</span>
+      <span class="sr">● Live Monitoring</span>
     </div>
     <div class="watchlist">
       <div class="wchip"><span class="wdot"></span> NQ1! / Premium Array</div>
-      <div class="wchip"><span class="wdot"></span> XAUUSD / HTF Liquidity</div>
-      <div class="wchip"><span class="wdot"></span> BTC / MMXM Completion</div>
-      <div class="wchip"><span class="wdot"></span> DXY / Correlated Flow</div>
+      <div class="wchip"><span class="wdot"></span> ES1! / Institutional Flow</div>
     </div>
 
-    <div class="gold-line"></div>
+    <div class="white-line"></div>
 
-    <!-- Chart Grid -->
+    <!-- 10 Chart Images -->
     <div class="sec-head">
       <span class="sl">73NQ Desk — Algorithmic STDV</span>
-      <span class="sr">Setups</span>
+      <span class="sr">10 Setups</span>
     </div>
     <div class="chart-grid">
       <div class="c-item" data-n="Setup 01" onclick="openModal('./image_1.png')"><img src="./image_1.png" alt="Setup 1"></div>
@@ -570,26 +535,29 @@ html,body{width:100%;height:100%;background:var(--black);color:var(--white);font
       <div class="c-item" data-n="Setup 03" onclick="openModal('./image_3.png')"><img src="./image_3.png" alt="Setup 3"></div>
       <div class="c-item" data-n="Setup 04" onclick="openModal('./image_4.png')"><img src="./image_4.png" alt="Setup 4"></div>
       <div class="c-item" data-n="Setup 05" onclick="openModal('./image_5.png')"><img src="./image_5.png" alt="Setup 5"></div>
+      <div class="c-item" data-n="Setup 06" onclick="openModal('./image_6.png')"><img src="./image_6.png" alt="Setup 6"></div>
+      <div class="c-item" data-n="Setup 07" onclick="openModal('./image_7.png')"><img src="./image_7.png" alt="Setup 7"></div>
+      <div class="c-item" data-n="Setup 08" onclick="openModal('./image_8.png')"><img src="./image_8.png" alt="Setup 8"></div>
+      <div class="c-item" data-n="Setup 09" onclick="openModal('./image_9.png')"><img src="./image_9.png" alt="Setup 9"></div>
+      <div class="c-item" data-n="Setup 10" onclick="openModal('./image_10.png')"><img src="./image_10.png" alt="Setup 10"></div>
     </div>
 
-    <div class="gold-line"></div>
+    <div class="white-line"></div>
 
-    <!-- Pricing -->
-    <div class="pricing">
+    <!-- Pricing with animated discount -->
+    <div class="pricing" id="pricingBlock" style="margin-bottom:32px;">
       <div class="early-badge">Early Access</div>
-      <p class="slots-line">Only <strong>7 slots</strong> available at this price</p>
-
+      <p class="slots-line">Only <strong>7 slots</strong> available — price drops once you enter</p>
       <p class="p-from">Regular price</p>
-      <span class="p-old">$249.00</span>
-      <span class="p-arrow">↓</span>
-      <span class="p-new">$89.99</span>
-      <p class="p-note">Founding Member · One-time Payment</p>
-
+      <div class="price-anim-wrap">
+        <span class="p-display" id="priceDisplay">$249.00</span>
+      </div>
+      <div class="discount-badge" id="discountBadge">— 64% OFF — EARLY ACCESS PRICE</div>
+      <p class="p-note">Founding Member · One-time Payment · Lifetime Access</p>
       <button id="payBtn" class="secure-btn" onclick="showPayment()">
         <i class="fa-solid fa-lock" style="font-size:0.7rem;"></i>
         Secure Your Slot
       </button>
-
       <div id="payArea" class="pay-area">
         <p class="pay-lbl">Direct USDT Settlement · TRC20 Network</p>
         <div class="wallet" onclick="copyWallet(this)" title="Tap to copy">YOUR_USDT_TRC20_ADDRESS_HERE</div>
@@ -601,74 +569,346 @@ html,body{width:100%;height:100%;background:var(--black);color:var(--white);font
       </div>
     </div>
 
-  </div><!-- /ov-inner -->
-</div><!-- /menu -->
+    <div class="white-line"></div>
 
+    <!-- Contact — Discord only -->
+    <div class="sec-head" style="margin-bottom:28px;">
+      <span class="sl">Contact Me</span>
+      <span class="sr">Direct Access</span>
+    </div>
+    <div class="contact-block">
+      <div class="contact-inner">
+        <span class="c-tag">73NQ · Reach Out</span>
+        <h3>Let's talk<br>markets.</h3>
+        <p class="c-sub">Questions about the mentorship?<br>Slide in directly — I respond personally.</p>
+        <div class="contact-cards">
+          <a class="c-card" href="https://discord.com/users/73nq" target="_blank">
+            <div class="c-icon"><i class="fa-brands fa-discord"></i></div>
+            <span class="c-platform">Discord</span>
+            <span class="c-handle">73NQ</span>
+            <span class="c-action">Send a Message →</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
-<!-- ════════ IMAGE MODAL ════════ -->
+  </div>
+</div>
+
+<!-- ══ IMAGE MODAL ══ -->
 <div id="imgModal">
   <i class="fa-solid fa-xmark modal-x" onclick="closeModal()"></i>
   <img id="modalImg" src="" alt="Chart">
 </div>
 
-<!-- ════════ AUDIO ════════ -->
 <audio id="bgMusic" loop><source src="theme.mp3" type="audio/mpeg"></audio>
 
-<!-- ════════ TICKER ════════ -->
+<!-- ══ TICKER ══ -->
 <footer class="ticker">
   <div class="t-track">
     <div class="t-seg">
       <div class="t-item"><span class="tl">73NQ</span><span class="ts">/</span><span class="tv">ACTIVE</span></div>
-      <div class="t-item"><span class="tl">NAS100</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
-      <div class="t-item"><span class="tl">XAUUSD</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
-      <div class="t-item"><span class="tl">BTC</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">NQ1!</span><span class="ts">/</span><span class="tv green">21,340.00 ▲</span></div>
+      <div class="t-item"><span class="tl">ES1!</span><span class="ts">/</span><span class="tv green">5,842.25 ▲</span></div>
+      <div class="t-item"><span class="tl">EARLY ACCESS</span><span class="ts">/</span><span class="tv">7 SLOTS ONLY</span></div>
       <div class="t-item"><span class="tl">SMC · STDV</span><span class="ts">/</span><span class="tv">CONFLUENCE</span></div>
-      <div class="t-item"><span class="tl">EARLY ACCESS</span><span class="ts">/</span><span class="tv">7 SLOTS</span></div>
+      <div class="t-item"><span class="tl">STATUS</span><span class="ts">/</span><span class="tv">RELENTLESS</span></div>
     </div>
     <div class="t-seg">
       <div class="t-item"><span class="tl">73NQ</span><span class="ts">/</span><span class="tv">ACTIVE</span></div>
-      <div class="t-item"><span class="tl">NAS100</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
-      <div class="t-item"><span class="tl">XAUUSD</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
-      <div class="t-item"><span class="tl">BTC</span><span class="ts">/</span><span class="tv">MONITORING</span></div>
+      <div class="t-item"><span class="tl">NQ1!</span><span class="ts">/</span><span class="tv green">21,340.00 ▲</span></div>
+      <div class="t-item"><span class="tl">ES1!</span><span class="ts">/</span><span class="tv green">5,842.25 ▲</span></div>
+      <div class="t-item"><span class="tl">EARLY ACCESS</span><span class="ts">/</span><span class="tv">7 SLOTS ONLY</span></div>
       <div class="t-item"><span class="tl">SMC · STDV</span><span class="ts">/</span><span class="tv">CONFLUENCE</span></div>
-      <div class="t-item"><span class="tl">EARLY ACCESS</span><span class="ts">/</span><span class="tv">7 SLOTS</span></div>
+      <div class="t-item"><span class="tl">STATUS</span><span class="ts">/</span><span class="tv">RELENTLESS</span></div>
     </div>
   </div>
 </footer>
 
-
 <script>
-// ── INTRO ─────────────────────────────────────────────────
-window.addEventListener('load', function(){
-  var intro = document.getElementById('intro');
-  var hero  = document.getElementById('hero');
+/* ══════════════════════════════════════════════════
+   ANIMATED CANDLESTICK CHART WITH AVP
+══════════════════════════════════════════════════ */
+(function(){
+  var canvas = document.getElementById('chartCanvas');
+  var ctx = canvas.getContext('2d');
+  var W, H, candles = [], time = 0;
 
-  // Exit after ~2.6s (logo in at 0.9s, line sweep at 1.5s → reads comfortably)
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    buildCandles();
+  }
+
+  function buildCandles(){
+    candles = [];
+    // Zoom out: more candles across the screen
+    var numCandles = Math.floor(W / 10);
+    var price = 21100 + Math.random()*60;
+    for(var i=0;i<numCandles;i++){
+      // Real market rhythm: more random, mix of bull/bear, some chop
+      var trendNoise = Math.sin(i*0.08)*30 + Math.sin(i*0.025)*80;
+      var random     = (Math.random()-0.5)*55;
+      var move       = random + trendNoise*0.012 + (i/numCandles)*1.2;
+      var open       = price;
+      price         += move;
+      var close      = price;
+      var range      = Math.abs(close-open);
+      var high       = Math.max(open,close) + Math.random()*(range*0.8+12);
+      var low        = Math.min(open,close) - Math.random()*(range*0.8+12);
+      candles.push({open,close,high,low});
+    }
+    // Normalise last price near 21340
+    var last = candles[candles.length-1];
+    var diff = 21340 - last.close;
+    candles.forEach(function(c,i){
+      var adj = diff*(i/candles.length)*0.6;
+      c.open+=adj;c.close+=adj;c.high+=adj;c.low+=adj;
+    });
+  }
+
+  function p2y(p,mn,mx){
+    var pad=H*0.15;
+    return H - pad - ((p-mn)/(mx-mn))*(H-pad*2.2);
+  }
+
+  // Build Volume Profile (AVP-style) — fixed once per resize
+  var vpBins = [];
+  function buildVP(minP,maxP){
+    vpBins=[];
+    var bins=28;
+    for(var b=0;b<bins;b++) vpBins.push({price:minP+(maxP-minP)*(b/bins),vol:0});
+    candles.forEach(function(c){
+      var mid=(c.open+c.close)*0.5;
+      var bi=Math.floor((mid-minP)/(maxP-minP)*bins);
+      bi=Math.max(0,Math.min(bins-1,bi));
+      vpBins[bi].vol += Math.random()*80+40 + (c.close>c.open?30:0);
+    });
+    // POC = bin with max vol
+    var maxV=0;
+    vpBins.forEach(function(b){if(b.vol>maxV)maxV=b.vol;});
+    vpBins.forEach(function(b){b.pct=b.vol/maxV;});
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    if(!candles.length){requestAnimationFrame(draw);return;}
+
+    var all=[];
+    candles.forEach(function(c){all.push(c.high,c.low);});
+    var mn=Math.min.apply(null,all), mx=Math.max.apply(null,all);
+    var rng=mx-mn; mn-=rng*0.1; mx+=rng*0.08;
+
+    // Build VP once per cycle
+    if(!vpBins.length) buildVP(mn,mx);
+
+    var cw = W/candles.length;
+    var bw = Math.max(cw*0.5, 1.2);
+
+    // --- Subtle grid ---
+    ctx.strokeStyle='rgba(255,255,255,0.04)';
+    ctx.lineWidth=0.7;
+    for(var g=0;g<7;g++){
+      var gy=H*0.1+(H*0.82/6)*g;
+      ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();
+    }
+    for(var vg=0;vg<14;vg++){
+      var vx=(W/13)*vg;
+      ctx.beginPath();ctx.moveTo(vx,0);ctx.lineTo(vx,H);ctx.stroke();
+    }
+
+    // --- Anchored Volume Profile (right side, black + grey) ---
+    var vpW = Math.min(W*0.055, 55);
+    var vpX = W - vpW - 8;
+    var vpBinH = (H*0.82)/vpBins.length;
+    vpBins.forEach(function(b,i){
+      var yy  = p2y(b.price+(mx-mn)/vpBins.length*0.5, mn, mx);
+      var barW= b.pct * vpW;
+      var isPOC = b.pct === 1;
+      ctx.fillStyle = isPOC
+        ? 'rgba(180,180,180,0.55)'
+        : (b.pct>0.65 ? 'rgba(140,140,140,0.35)' : 'rgba(80,80,80,0.22)');
+      ctx.fillRect(vpX + (vpW - barW), yy - vpBinH*0.42, barW, vpBinH*0.84);
+      // POC line
+      if(isPOC){
+        ctx.strokeStyle='rgba(200,200,200,0.45)';
+        ctx.setLineDash([3,4]);
+        ctx.lineWidth=0.8;
+        ctx.beginPath();
+        ctx.moveTo(0, yy);
+        ctx.lineTo(vpX, yy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    });
+
+    // --- Candles ---
+    candles.forEach(function(c,i){
+      var x  = (i+0.5)*cw;
+      var oY = p2y(c.open,  mn, mx);
+      var cY = p2y(c.close, mn, mx);
+      var hY = p2y(c.high,  mn, mx);
+      var lY = p2y(c.low,   mn, mx);
+      var bull = c.close >= c.open;
+
+      var colStroke = bull ? 'rgba(34,197,94,0.75)'  : 'rgba(239,68,68,0.75)';
+      var colFill   = bull ? 'rgba(34,197,94,0.18)'  : 'rgba(239,68,68,0.18)';
+
+      // Wick
+      ctx.strokeStyle=colStroke;ctx.lineWidth=0.7;
+      ctx.beginPath();ctx.moveTo(x,hY);ctx.lineTo(x,lY);ctx.stroke();
+
+      // Body
+      var bTop=Math.min(oY,cY), bH=Math.max(Math.abs(cY-oY),1.4);
+      ctx.fillStyle=colFill;
+      ctx.strokeStyle=colStroke;ctx.lineWidth=0.7;
+      ctx.fillRect(x-bw/2, bTop, bw, bH);
+      ctx.strokeRect(x-bw/2, bTop, bw, bH);
+    });
+
+    // --- Area fill under close line (subtle) ---
+    ctx.save();
+    var fillG = ctx.createLinearGradient(0,0,0,H);
+    fillG.addColorStop(0,'rgba(34,197,94,0.06)');
+    fillG.addColorStop(1,'rgba(34,197,94,0)');
+    var fp=new Path2D();
+    candles.forEach(function(c,i){
+      var x=(i+0.5)*cw,y=p2y(c.close,mn,mx);
+      if(i===0) fp.moveTo(x,y); else fp.lineTo(x,y);
+    });
+    fp.lineTo(W,H);fp.lineTo(0,H);fp.closePath();
+    ctx.fillStyle=fillG;ctx.fill(fp);
+    ctx.restore();
+
+    // --- Live dot on last candle ---
+    time+=0.045;
+    var last=candles[candles.length-1];
+    var lx=Math.min((candles.length-0.5)*cw, W-12);
+    var ly=p2y(last.close,mn,mx);
+    var pulse=(Math.sin(time)*0.5+0.5);
+    ctx.save();
+    ctx.strokeStyle='rgba(34,197,94,'+(0.25+pulse*0.45)+')';
+    ctx.lineWidth=1;
+    ctx.beginPath();ctx.arc(lx,ly,3+pulse*7,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='rgba(34,197,94,0.9)';
+    ctx.beginPath();ctx.arc(lx,ly,2.5,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+
+    // --- Scroll: add new candle every ~N frames ---
+    if(Math.floor(time*10)%6===0){
+      candles.shift();
+      var prev=candles[candles.length-1];
+      var bias=(Math.random()-0.5)*0.3; // mostly neutral
+      var mv=(Math.random()-0.5+bias)*52;
+      var nO=prev.close, nC=nO+mv;
+      var nr=Math.abs(nC-nO);
+      candles.push({open:nO,close:nC,high:Math.max(nO,nC)+Math.random()*(nr*0.7+10),low:Math.min(nO,nC)-Math.random()*(nr*0.7+10)});
+      vpBins=[];// rebuild vp
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize',function(){vpBins=[];resize();});
+  resize();
+  draw();
+})();
+
+/* ══════════════════════════════════════════════════
+   INTRO SEQUENCE
+══════════════════════════════════════════════════ */
+window.addEventListener('load',function(){
+  var intro=document.getElementById('intro');
+  var hero =document.getElementById('hero');
   setTimeout(function(){
     intro.classList.add('gone');
     setTimeout(function(){
-      intro.style.display = 'none';
-      document.body.style.overflow = '';
+      intro.style.display='none';
+      document.body.style.overflow='';
       hero.classList.add('visible');
-      var a = document.getElementById('bgMusic');
-      a.volume = 0.25;
-      a.play().catch(function(){});
-    }, 820);
-  }, 2600);
+      var a=document.getElementById('bgMusic');
+      a.volume=0.2;a.play().catch(function(){});
+    },900);
+  },2650);
 });
 
-// ── MENU ──────────────────────────────────────────────────
+/* ══════════════════════════════════════════════════
+   MENU
+══════════════════════════════════════════════════ */
 function openMenu(){document.getElementById('menu').classList.add('active');}
 function closeMenu(){document.getElementById('menu').classList.remove('active');}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
 
-// ── PAYMENT ───────────────────────────────────────────────
+/* ══════════════════════════════════════════════════
+   ANIMATED PRICE COUNTER  249 → 89.99
+══════════════════════════════════════════════════ */
+var priceAnimated=false;
+function animatePrice(){
+  if(priceAnimated) return;
+  priceAnimated=true;
+
+  var display=document.getElementById('priceDisplay');
+  var badge  =document.getElementById('discountBadge');
+  var start  =249;
+  var end    =89.99;
+  var duration=1800; // ms
+  var startTime=null;
+
+  // Phase 1: count down from 249
+  function step(ts){
+    if(!startTime) startTime=ts;
+    var progress=Math.min((ts-startTime)/duration,1);
+    // ease out
+    var ease=1-Math.pow(1-progress,3);
+    var current=start + (end-start)*ease;
+    display.textContent='$'+current.toFixed(2);
+
+    if(progress<1){
+      requestAnimationFrame(step);
+    } else {
+      display.textContent='$89.99';
+      // strike the old price feel — add a brief flash
+      display.style.color='#22c55e';
+      display.style.textShadow='0 0 40px rgba(34,197,94,0.4)';
+      setTimeout(function(){
+        display.style.color='';
+        display.style.textShadow='';
+        badge.classList.add('show');
+      },300);
+    }
+  }
+
+  // Small delay before starting the count
+  setTimeout(function(){requestAnimationFrame(step);}, 600);
+}
+
+// Trigger animation when pricing section scrolls into view inside the overlay
+var pricingBlock=document.getElementById('pricingBlock');
+var menuEl=document.getElementById('menu');
+menuEl.addEventListener('scroll',function(){
+  var rect=pricingBlock.getBoundingClientRect();
+  if(rect.top < window.innerHeight*0.85) animatePrice();
+});
+// Also trigger when menu opens and user can already see pricing
+document.querySelector('.cta').addEventListener('click',function(){
+  setTimeout(function(){
+    var rect=pricingBlock.getBoundingClientRect();
+    if(rect.top < window.innerHeight*0.85) animatePrice();
+  },900);
+});
+
+/* ══════════════════════════════════════════════════
+   PAYMENT
+══════════════════════════════════════════════════ */
 function showPayment(){
   document.getElementById('payArea').style.display='block';
   document.getElementById('payBtn').style.display='none';
 }
 
-// ── MODAL ─────────────────────────────────────────────────
+/* ══════════════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════════════ */
 function openModal(src){
   document.getElementById('modalImg').src=src;
   document.getElementById('imgModal').classList.add('open');
@@ -676,11 +916,12 @@ function openModal(src){
 function closeModal(){document.getElementById('imgModal').classList.remove('open');}
 document.getElementById('imgModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// ── COPY WALLET ───────────────────────────────────────────
+/* ══════════════════════════════════════════════════
+   COPY WALLET
+══════════════════════════════════════════════════ */
 function copyWallet(el){
   navigator.clipboard.writeText(el.textContent.trim()).then(function(){
-    var o=el.textContent;
-    el.textContent='Copied ✓';
+    var o=el.textContent;el.textContent='Copied ✓';
     setTimeout(function(){el.textContent=o;},1800);
   }).catch(function(){});
 }
