@@ -26,9 +26,9 @@
   --red:#dc2626;
   --green-bg:rgba(22,163,74,0.08);
   --green-border:rgba(22,163,74,0.25);
-  /* Intro accent — deep amber/gold */
-  --intro-accent:#c8922a;
-  --intro-accent2:#e8b84b;
+  /* Intro accent — electric blue/cyan Bloomberg terminal */
+  --intro-accent:#00c8ff;
+  --intro-accent2:#0080ff;
   --D:'Bebas Neue',display;
   --S:'DM Sans',sans-serif;
   --M:'DM Mono',monospace;
@@ -39,41 +39,71 @@ body{background:var(--dark);color:var(--ink);font-family:var(--S);overflow-x:hid
 body.lock{overflow:hidden;}
 
 /* ══════════════════════════════════════════
-   INTRO — amber/gold on black, cinematic
+   INTRO — electric blue/cyan Bloomberg terminal
 ══════════════════════════════════════════ */
 #intro{
   position:fixed;inset:0;z-index:9999;
-  background:#080808;
+  background:#020c14;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   overflow:hidden;
 }
 /* Animated scanlines */
 #intro::before{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(200,146,42,0.025) 3px,rgba(200,146,42,0.025) 4px);
+  background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(0,200,255,0.018) 3px,rgba(0,200,255,0.018) 4px);
   opacity:0;animation:slIn 0.5s ease 0.1s forwards;
 }
 @keyframes slIn{to{opacity:1;}}
-/* Corner brackets — amber */
+
+/* Corner brackets — cyan */
 .intro-c{position:absolute;pointer-events:none;}
-.intro-c.tl{top:32px;left:32px;border-top:1px solid rgba(200,146,42,0.5);border-left:1px solid rgba(200,146,42,0.5);width:0;height:0;animation:bkTL 0.55s var(--expo) 0.35s forwards;}
-.intro-c.tr{top:32px;right:32px;border-top:1px solid rgba(200,146,42,0.5);border-right:1px solid rgba(200,146,42,0.5);width:0;height:0;animation:bkTR 0.55s var(--expo) 0.35s forwards;}
-.intro-c.bl{bottom:32px;left:32px;border-bottom:1px solid rgba(200,146,42,0.5);border-left:1px solid rgba(200,146,42,0.5);width:0;height:0;animation:bkBL 0.55s var(--expo) 0.35s forwards;}
-.intro-c.br{bottom:32px;right:32px;border-bottom:1px solid rgba(200,146,42,0.5);border-right:1px solid rgba(200,146,42,0.5);width:0;height:0;animation:bkBR 0.55s var(--expo) 0.35s forwards;}
+.intro-c.tl{top:32px;left:32px;border-top:1px solid rgba(0,200,255,0.55);border-left:1px solid rgba(0,200,255,0.55);width:0;height:0;animation:bkTL 0.55s var(--expo) 0.35s forwards;}
+.intro-c.tr{top:32px;right:32px;border-top:1px solid rgba(0,200,255,0.55);border-right:1px solid rgba(0,200,255,0.55);width:0;height:0;animation:bkTR 0.55s var(--expo) 0.35s forwards;}
+.intro-c.bl{bottom:32px;left:32px;border-bottom:1px solid rgba(0,200,255,0.55);border-left:1px solid rgba(0,200,255,0.55);width:0;height:0;animation:bkBL 0.55s var(--expo) 0.35s forwards;}
+.intro-c.br{bottom:32px;right:32px;border-bottom:1px solid rgba(0,200,255,0.55);border-right:1px solid rgba(0,200,255,0.55);width:0;height:0;animation:bkBR 0.55s var(--expo) 0.35s forwards;}
 @keyframes bkTL{to{width:60px;height:60px;}}
 @keyframes bkTR{to{width:60px;height:60px;}}
 @keyframes bkBL{to{width:60px;height:60px;}}
 @keyframes bkBR{to{width:60px;height:60px;}}
 
-/* Collab line — amber */
+/* NASDAQ + S&P 500 logos behind — floating waving */
+.intro-logos{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  gap:min(12vw,160px);
+  pointer-events:none;
+  z-index:1;
+}
+.intro-logo-wrap{opacity:0;animation:logoWave 0.7s var(--expo) 0.3s forwards;}
+.intro-logo-wrap:nth-child(1){animation-name:logoWaveL;}
+.intro-logo-wrap:nth-child(2){animation-name:logoWaveR;}
+@keyframes logoWaveL{
+  0%{opacity:0;transform:translateX(-40px) scale(0.92);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
+@keyframes logoWaveR{
+  0%{opacity:0;transform:translateX(40px) scale(0.92);}
+  100%{opacity:1;transform:translateX(0) scale(1);}
+}
+/* Continuous float animation */
+.intro-logo-wrap:nth-child(1) svg{animation:floatL 4s ease-in-out 1s infinite;}
+.intro-logo-wrap:nth-child(2) svg{animation:floatR 4.5s ease-in-out 1.2s infinite;}
+@keyframes floatL{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-12px) rotate(1deg);}}
+@keyframes floatR{0%,100%{transform:translateY(0) rotate(1deg);}50%{transform:translateY(-10px) rotate(-1deg);}}
+/* Fade logos out as title fills */
+#intro .intro-logos{transition:opacity 0.5s ease;}
+#intro.logos-fade .intro-logos{opacity:0;}
+
+/* Collab line — cyan */
 .intro-collab{
+  position:relative;z-index:2;
   font-family:var(--M);font-size:0.4rem;letter-spacing:9px;text-transform:uppercase;
-  color:rgba(200,146,42,0.55);margin-bottom:22px;white-space:nowrap;
+  color:rgba(0,200,255,0.5);margin-bottom:22px;white-space:nowrap;
   opacity:0;animation:fadeUp 0.5s var(--expo) 0.85s forwards;
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-/* Main title — amber outline → fills */
+/* Main title — cyan outline → fills white */
 .intro-title{
   position:relative;z-index:2;
   font-family:var(--D);
@@ -82,27 +112,29 @@ body.lock{overflow:hidden;}
   text-transform:uppercase;
   line-height:0.88;text-align:center;
   color:transparent;
-  -webkit-text-stroke:1.5px var(--intro-accent);
+  -webkit-text-stroke:1.5px rgba(0,200,255,0.85);
+  text-shadow:0 0 80px rgba(0,200,255,0.18);
   opacity:0;
   animation:titleIn 0.85s var(--expo) 1s forwards;
 }
 @keyframes titleIn{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
 .intro-title.fill-in{animation:tFill 0.55s var(--expo) forwards;}
-@keyframes tFill{to{color:var(--hero-text);-webkit-text-stroke:0px transparent;}}
-.intro-x{color:transparent;-webkit-text-stroke:1.5px rgba(200,146,42,0.3);font-size:0.5em;vertical-align:middle;}
+@keyframes tFill{to{color:var(--hero-text);-webkit-text-stroke:0px transparent;text-shadow:none;}}
+.intro-x{color:transparent;-webkit-text-stroke:1.5px rgba(0,200,255,0.25);font-size:0.5em;vertical-align:middle;}
 
-/* Gold line sweep under title */
+/* Cyan line sweep under title */
 .intro-sweep{
   display:block;height:2px;width:0%;margin:10px auto 0;
   background:linear-gradient(90deg,transparent,var(--intro-accent),var(--intro-accent2),transparent);
-  box-shadow:0 0 16px rgba(200,146,42,0.5);
+  box-shadow:0 0 20px rgba(0,200,255,0.6);
   animation:sweep 0.65s var(--expo) 1.6s forwards;
 }
 @keyframes sweep{to{width:100%;}}
 
 .intro-desc{
+  position:relative;z-index:2;
   font-family:var(--M);font-size:0.4rem;letter-spacing:6px;text-transform:uppercase;
-  color:rgba(200,146,42,0.35);margin-top:20px;
+  color:rgba(0,200,255,0.32);margin-top:20px;
   opacity:0;animation:fadeUp 0.5s var(--expo) 1.75s forwards;
 }
 
@@ -627,6 +659,51 @@ body.lock{overflow:hidden;}
 <div id="intro">
   <div class="intro-c tl"></div><div class="intro-c tr"></div>
   <div class="intro-c bl"></div><div class="intro-c br"></div>
+
+  <!-- NASDAQ + S&P 500 logos — waving behind title -->
+  <div class="intro-logos">
+
+    <!-- NASDAQ wordmark SVG -->
+    <div class="intro-logo-wrap">
+      <svg width="200" height="54" viewBox="0 0 200 54" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.22;">
+        <!-- N -->
+        <path d="M4 48V6H11L29 34V6H36V48H29L11 20V48H4Z" fill="none" stroke="rgba(0,200,255,0.8)" stroke-width="1.2"/>
+        <!-- A -->
+        <path d="M44 48L57 6H64L77 48H70L67 37H54L51 48H44ZM56 30H65L60.5 13L56 30Z" fill="none" stroke="rgba(0,200,255,0.8)" stroke-width="1.2"/>
+        <!-- S -->
+        <path d="M95 36C95 41.5 90 49 80 49C70 49 65 41.5 65 36H72C72 39 75.5 43 80 43C84.5 43 88 40 88 36C88 32 85 30 78 27.5C71 25 65 21 65 13C65 7 70 0 80 0C90 0 95 7 95 13H88C88 10 84.5 7 80 7C75.5 7 72 10 72 13C72 16 75 18 80 20C85 22 95 26 95 36Z" fill="none" stroke="rgba(0,200,255,0.8)" stroke-width="1.2" transform="translate(16,5) scale(0.78)"/>
+        <!-- D -->
+        <path d="M108 48V6H120C131 6 140 15 140 27C140 39 131 48 120 48H108ZM115 41H120C127 41 133 35 133 27C133 19 127 13 120 13H115V41Z" fill="none" stroke="rgba(0,200,255,0.8)" stroke-width="1.2"/>
+        <!-- A2 -->
+        <path d="M144 48L157 6H164L177 48H170L167 37H154L151 48H144ZM156 30H165L160.5 13L156 30Z" fill="none" stroke="rgba(0,200,255,0.8)" stroke-width="1.2"/>
+        <!-- Q -->
+        <path d="M180 27C180 16 187 5 197 5C207 5 214 16 214 27C214 33 211.5 38.5 207.5 42L213 49H205L201 44.5C199.8 44.8 198.4 45 197 45C187 45 180 38 180 27ZM187 27C187 34 191.5 38 197 38C202.5 38 207 34 207 27C207 20 202.5 14 197 14C191.5 14 187 20 187 27Z" fill="none" stroke="rgba(0,200,255,0.8)" stroke-width="1.2" transform="scale(0.78) translate(-38,6)"/>
+        <!-- Underline -->
+        <line x1="0" y1="52" x2="200" y2="52" stroke="rgba(0,200,255,0.3)" stroke-width="0.8"/>
+        <!-- NQ1! badge -->
+        <text x="0" y="52" font-family="DM Mono,monospace" font-size="7" fill="rgba(0,200,255,0.45)" letter-spacing="3" dy="0">NQ1! · 29,368</text>
+      </svg>
+    </div>
+
+    <!-- S&P 500 SVG -->
+    <div class="intro-logo-wrap">
+      <svg width="160" height="70" viewBox="0 0 160 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.2;">
+        <!-- S&P circle badge -->
+        <circle cx="34" cy="30" r="28" fill="none" stroke="rgba(0,200,255,0.6)" stroke-width="1.2"/>
+        <!-- S inside circle -->
+        <path d="M26 37C26 40 28.5 44 34 44C39.5 44 42 40 42 37C42 34 40 32 34 30C28 28 25 25 25 20C25 16 28 12 34 12C40 12 43 16 43 20H39C39 17.5 36.8 15.5 34 15.5C31.2 15.5 29 17.5 29 20C29 22.5 31 24 34 25.5C37 27 46 30 46 37C46 42 42 47.5 34 47.5C26 47.5 22 42 22 37H26Z" fill="rgba(0,200,255,0.65)"/>
+        <!-- &P text -->
+        <text x="68" y="28" font-family="DM Mono,monospace" font-size="22" font-weight="700" fill="none" stroke="rgba(0,200,255,0.7)" stroke-width="1.1" letter-spacing="2">&amp;P</text>
+        <text x="68" y="46" font-family="DM Mono,monospace" font-size="14" font-weight="500" fill="none" stroke="rgba(0,200,255,0.55)" stroke-width="0.9" letter-spacing="1">500</text>
+        <!-- Underline -->
+        <line x1="0" y1="62" x2="160" y2="62" stroke="rgba(0,200,255,0.25)" stroke-width="0.8"/>
+        <!-- ES1! badge -->
+        <text x="0" y="62" font-family="DM Mono,monospace" font-size="7" fill="rgba(0,200,255,0.4)" letter-spacing="3" dy="8">ES1! · 7,434</text>
+      </svg>
+    </div>
+
+  </div><!-- /intro-logos -->
+
   <div class="intro-collab">73NQ &nbsp;×&nbsp; YX &nbsp;·&nbsp; Market Architecture</div>
   <div class="intro-title" id="introTitle">
     73NQ<span class="intro-x"> × </span>YX
@@ -870,14 +947,34 @@ body.lock{overflow:hidden;}
   <div class="ob-box">
     <div class="ob-top">
       <div class="ob-top-tag">73NQ × YX · Onboarding</div>
-      <div class="ob-top-title">Quick check-in</div>
+      <div class="ob-top-title">Tell us about you</div>
       <button class="ob-close" onclick="closeOnboard()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="ob-progress"><div class="ob-progress-fill" id="obProgress" style="width:20%"></div></div>
     <div class="ob-body">
 
+      <!-- Step 0: Name -->
+      <div class="ob-step active" id="ob-s0">
+        <div class="ob-step-lbl">Before we start</div>
+        <div class="ob-q">What's your name?</div>
+        <p style="font-size:0.7rem;color:var(--ink-muted);font-weight:300;line-height:1.8;margin-bottom:20px;">So we know who we're talking to when you DM us on Discord.</p>
+        <input
+          type="text"
+          id="ob-name-input"
+          placeholder="Your name or Discord username"
+          autocomplete="off"
+          style="width:100%;border:1px solid var(--rule-strong);background:transparent;padding:14px 16px;font-family:var(--S);font-size:0.82rem;color:var(--ink);outline:none;margin-bottom:8px;transition:border-color .3s;"
+          oninput="obNameCheck()"
+          onkeydown="if(event.key==='Enter')obNext(1,20)"
+          onfocus="this.style.borderColor='var(--ink)'"
+          onblur="this.style.borderColor='var(--rule-strong)'"
+        >
+        <p id="ob-name-err" style="font-family:var(--M);font-size:0.34rem;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:none;">Please enter your name to continue</p>
+        <button class="ob-next" id="ob-next0" disabled onclick="obNext(1,20)"><span>Next</span> <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+
       <!-- Step 1: Experience time -->
-      <div class="ob-step active" id="ob-s1">
+      <div class="ob-step" id="ob-s1">
         <div class="ob-step-lbl">Step 1 of 4</div>
         <div class="ob-q">How long have you been trading?</div>
         <div class="ob-opts">
@@ -935,8 +1032,8 @@ body.lock{overflow:hidden;}
       <div class="ob-step" id="ob-s5">
         <div class="ob-final">
           <div class="ob-final-icon"><i class="fa-brands fa-discord"></i></div>
-          <div class="ob-final-title">Ready to connect</div>
-          <p class="ob-final-sub">Your answers have been saved to our inbox. DM us on Discord and we'll have context before you even introduce yourself.</p>
+          <div class="ob-final-title" id="obFinalTitle">Ready to connect</div>
+          <p class="ob-final-sub" id="obFinalSub">Your answers have been saved to our inbox. DM us on Discord and we'll have context before you even introduce yourself.</p>
           <a class="ob-discord-btn" href="https://discord.com/users/73nq" target="_blank"><i class="fa-brands fa-discord"></i> Open Discord — @73nq</a>
           <p class="ob-summary" id="obSummary"></p>
         </div>
@@ -1074,20 +1171,34 @@ function switchPlan(plan,btn){
 /* ══════════════════════════
    ONBOARDING MODAL
 ══════════════════════════ */
-var obAnswers={time:'',style:[],struggle:'',goal:''};
-function openOnboard(){document.getElementById('onboardModal').classList.add('open');}
+var obAnswers={name:'',time:'',style:[],struggle:'',goal:''};
+
+function openOnboard(){
+  // Reset to step 0 each time
+  document.querySelectorAll('.ob-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('ob-s0').classList.add('active');
+  document.getElementById('obProgress').style.width='0%';
+  document.getElementById('ob-name-input').value='';
+  document.getElementById('ob-next0').disabled=true;
+  obAnswers={name:'',time:'',style:[],struggle:'',goal:''};
+  document.getElementById('onboardModal').classList.add('open');
+}
 function closeOnboard(){document.getElementById('onboardModal').classList.remove('open');}
 document.getElementById('onboardModal').addEventListener('click',function(e){if(e.target===this)closeOnboard();});
+
+// Name step check
+function obNameCheck(){
+  var val=document.getElementById('ob-name-input').value.trim();
+  document.getElementById('ob-next0').disabled=val.length<2;
+  obAnswers.name=val;
+}
 
 function obSelect(btn,key){
   var opts=btn.closest('.ob-opts').querySelectorAll('.ob-opt:not(.ob-multi)');
   opts.forEach(function(o){o.classList.remove('selected');});
   btn.classList.add('selected');
   obAnswers[key]=btn.textContent.trim();
-  // enable next button
-  var stepId='ob-s'+currentStep();
-  var nextId='ob-next'+currentStep();
-  var nb=document.getElementById(nextId);
+  var nb=document.getElementById('ob-next'+currentStep());
   if(nb)nb.disabled=false;
 }
 function obMulti(btn,key){
@@ -1095,21 +1206,33 @@ function obMulti(btn,key){
   obAnswers[key]=Array.from(btn.closest('.ob-opts').querySelectorAll('.ob-opt.selected')).map(function(b){return b.textContent.trim();});
 }
 function currentStep(){
-  var steps=document.querySelectorAll('.ob-step.active');
-  var id=steps[0]?steps[0].id:'ob-s1';
-  return parseInt(id.replace('ob-s',''));
+  var active=document.querySelector('.ob-step.active');
+  if(!active)return 0;
+  return parseInt(active.id.replace('ob-s',''));
 }
 function obNext(nextNum,progressPct){
+  // Validate name on step 0
+  if(currentStep()===0){
+    var nm=document.getElementById('ob-name-input').value.trim();
+    if(nm.length<2){document.getElementById('ob-name-err').style.display='block';return;}
+    document.getElementById('ob-name-err').style.display='none';
+    obAnswers.name=nm;
+  }
   var cur=currentStep();
   document.getElementById('ob-s'+cur).classList.remove('active');
   document.getElementById('ob-s'+nextNum).classList.add('active');
   document.getElementById('obProgress').style.width=progressPct+'%';
 }
 function obFinish(){
+  var name=obAnswers.name||'there';
+  // Personalise final screen
+  document.getElementById('obFinalTitle').textContent='You\'re in, '+name+'.';
+  document.getElementById('obFinalSub').textContent='Your profile has been saved to our inbox. When you DM us on Discord, we\'ll already know who you are and where you\'re at.';
   // Build summary
   var sumEl=document.getElementById('obSummary');
   var lines=[];
-  if(obAnswers.time)lines.push('Trading experience: '+obAnswers.time);
+  if(obAnswers.name)lines.push('Name: '+obAnswers.name);
+  if(obAnswers.time)lines.push('Experience: '+obAnswers.time);
   if(obAnswers.style&&obAnswers.style.length)lines.push('Focus: '+(Array.isArray(obAnswers.style)?obAnswers.style.join(', '):obAnswers.style));
   if(obAnswers.struggle)lines.push('Struggle: '+obAnswers.struggle);
   if(obAnswers.goal)lines.push('Goal: '+obAnswers.goal);
@@ -1121,6 +1244,8 @@ function obFinish(){
   document.getElementById('ob-s'+cur).classList.remove('active');
   document.getElementById('ob-s5').classList.add('active');
   document.getElementById('obProgress').style.width='100%';
+  // Fade logos (if still visible)
+  document.getElementById('intro')&&document.getElementById('intro').classList.add('logos-fade');
 }
 
 /* ══════════════════════════
